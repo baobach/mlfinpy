@@ -1,0 +1,5 @@
+.. _sampling:
+
+##########
+Sampling Techniques
+##########

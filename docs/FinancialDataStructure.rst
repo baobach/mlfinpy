@@ -130,7 +130,7 @@ Statistical Properties
 The chart below that tick, volume, and dollar bars all exhibit a distribution significantly closer to normal - versus
 standard time bars:
 
-.. image:: normality_graph.png
+.. image:: media/normality_graph.png
    :scale: 70 %
    :align: center
 
@@ -241,7 +241,7 @@ Note that in algorithm pseudo-code we reset :math:`\theta_t` when bar is formed,
 Let's look at dynamics of :math:`|\theta_t|` and :math:`E_0[T] * |2v^+ - E_0[v_t]|` to understand why we decided to
 reset :math:`\theta_t` when a bar is formed. The following figure highlights the dynamics when theta value is reset:
 
-.. image:: imbalance_images/theta_reset.png
+.. image:: media/theta_reset.png
    :scale: 70 %
    :align: center
 
@@ -253,7 +253,7 @@ After the first bar was generated both expected number of ticks (:math:`E_0[T]`)
 
 When theta is not reset:
 
-.. image:: imbalance_images/theta_not_reset.png
+.. image:: media/theta_not_reset.png
    :scale: 70 %
    :align: center
 
@@ -267,7 +267,7 @@ The logic described above is implemented in the **mlfinpy** package under Imbala
 Implementation
 ==============
 
-.. py:currentmodule:: mlfinpy.data_structure.imbalance_data_structure
+.. py:currentmodule:: mlfinpy.data_structure.imbalance_bars
 .. autofunction::  get_ema_dollar_imbalance_bars
 .. autofunction:: get_ema_volume_imbalance_bars
 .. autofunction:: get_ema_tick_imbalance_bars
@@ -295,75 +295,75 @@ Example
 
 |
 
-Run Bars
-********
+.. Run Bars
+.. ********
 
-Run bars share the same mathematical structure as imbalance bars, however, instead of looking at each individual trade,
-we are looking at sequences of trades in the same direction. The idea is that we are trying to detect order flow imbalance
-caused by actions such as large traders sweeping the order book or iceberg orders.
+.. Run bars share the same mathematical structure as imbalance bars, however, instead of looking at each individual trade,
+.. we are looking at sequences of trades in the same direction. The idea is that we are trying to detect order flow imbalance
+.. caused by actions such as large traders sweeping the order book or iceberg orders.
 
-2 types of run bars are implemented in mlfinpy:
+.. 2 types of run bars are implemented in mlfinpy:
 
-    1. Expected number of ticks, defined as EWMA (book implementation)
-    2. Constant number of expected number of ticks.
+..     1. Expected number of ticks, defined as EWMA (book implementation)
+..     2. Constant number of expected number of ticks.
 
-Implementation
-==============
+.. Implementation
+.. ==============
 
-.. py:currentmodule:: mlfinpy.data_structure.run_data_structure
-.. autofunction:: get_ema_dollar_run_bars
-.. autofunction:: get_ema_volume_run_bars
-.. autofunction:: get_ema_tick_run_bars
-.. autofunction:: get_const_dollar_run_bars
-.. autofunction:: get_const_volume_run_bars
-.. autofunction:: get_const_tick_run_bars
+.. .. py:currentmodule:: mlfinpy.data_structure.run_data_structure
+.. .. autofunction:: get_ema_dollar_run_bars
+.. .. autofunction:: get_ema_volume_run_bars
+.. .. autofunction:: get_ema_tick_run_bars
+.. .. autofunction:: get_const_dollar_run_bars
+.. .. autofunction:: get_const_volume_run_bars
+.. .. autofunction:: get_const_tick_run_bars
 
-Example
-=======
+.. Example
+.. =======
 
-.. code-block::
+.. .. code-block::
 
-   from mlfinpy.data_structure import get_ema_dollar_run_bars, get_const_dollar_run_bars
+..    from mlfinpy.data_structure import get_ema_dollar_run_bars, get_const_dollar_run_bars
 
-   # EMA, Const Dollar Imbalance Bars
-   dollar_imbalance_ema = get_ema_dollar_run_bars('FILE_PATH', num_prev_bars=3, exp_num_ticks_init=100000,
-                                                   exp_num_ticks_constraints=[100, 1000], expected_imbalance_window=10000)
+..    # EMA, Const Dollar Imbalance Bars
+..    dollar_imbalance_ema = get_ema_dollar_run_bars('FILE_PATH', num_prev_bars=3, exp_num_ticks_init=100000,
+..                                                    exp_num_ticks_constraints=[100, 1000], expected_imbalance_window=10000)
 
-   dollar_imbalance_const = get_const_dollar_run_bars('FILE_PATH', num_prev_bars=3, exp_num_ticks_init=100000,
-                                                      expected_imbalance_window=10000)
+..    dollar_imbalance_const = get_const_dollar_run_bars('FILE_PATH', num_prev_bars=3, exp_num_ticks_init=100000,
+..                                                       expected_imbalance_window=10000)
 
-|
+.. |
 
------------------------
+.. -----------------------
 
-|
+.. |
 
-Research Notebooks
-##################
+.. Research Notebooks
+.. ##################
 
-The following research notebooks can be used to better understand the previously discussed data structures
+.. The following research notebooks can be used to better understand the previously discussed data structures
 
-Standard Bars
-*************
+.. Standard Bars
+.. *************
 
-* `Getting Started`_
-* `Sample Techniques`_
+.. * `Getting Started`_
+.. * `Sample Techniques`_
 
-.. _Getting Started: https://github.com/hudson-and-thames/research/blob/master/Advances%20in%20Financial%20Machine%20Learning/Financial%20Data%20Structures/Getting%20Started.ipynb
-.. _Sample Techniques: https://github.com/hudson-and-thames/research/blob/master/Advances%20in%20Financial%20Machine%20Learning/Financial%20Data%20Structures/Sample_Techniques.ipynb
+.. .. _Getting Started: https://github.com/hudson-and-thames/research/blob/master/Advances%20in%20Financial%20Machine%20Learning/Financial%20Data%20Structures/Getting%20Started.ipynb
+.. .. _Sample Techniques: https://github.com/hudson-and-thames/research/blob/master/Advances%20in%20Financial%20Machine%20Learning/Financial%20Data%20Structures/Sample_Techniques.ipynb
 
-Imbalance Bars
-**************
+.. Imbalance Bars
+.. **************
 
-* `Imbalance Bars`_
+.. * `Imbalance Bars`_
 
-.. _Imbalance Bars: https://github.com/hudson-and-thames/research/blob/master/Advances%20in%20Financial%20Machine%20Learning/Financial%20Data%20Structures/Dollar-Imbalance-Bars.ipynb
+.. .. _Imbalance Bars: https://github.com/hudson-and-thames/research/blob/master/Advances%20in%20Financial%20Machine%20Learning/Financial%20Data%20Structures/Dollar-Imbalance-Bars.ipynb
 
-|
+.. |
 
----------------------
+.. ---------------------
 
-|
+.. |
 
 Data Preparation Tutorial
 #########################
