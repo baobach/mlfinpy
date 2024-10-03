@@ -1,26 +1,36 @@
 =======
-mlfinpy
+Mlfin.py is an Advance Machine Learning toolbox for financial applications.
 =======
 
 
 .. image:: https://img.shields.io/pypi/v/mlfinpy.svg
         :target: https://pypi.python.org/pypi/mlfinpy
+        :alt: PyPI Version
 
-.. image:: https://img.shields.io/travis/baobach/mlfinpy.svg
-        :target: https://travis-ci.com/baobach/mlfinpy
+.. image:: https://img.shields.io/pypi/pyversions/mlfinpy.svg
+        :target: https://pypi.python.org/pypi/mlfinpy
+        :alt: Python Versions
+
+.. image:: https://img.shields.io/badge/Platforms-linux--64,win--64,osx--64-orange.svg?style=flat-square
+        :target: https://pypi.python.org/pypi/mlfinpy
+        :alt: Platforms
+
+.. image:: https://img.shields.io/badge/license-MIT-brightgreen.svg
+        :target: https://pypi.python.org/pypi/mlfinpy
+        :alt: MIT License
+
+.. image:: https://img.shields.io/github/actions/workflow/status/baobach/mlfinpy/main.yml
+        :target: https://github.com/baobach/mlfinpy
+        :alt: Build Status
+
+.. image:: https://codecov.io/github/baobach/mlfinpy/coverage.svg?branch=main
+        :target: https://codecov.io/github/baobach/mlfinpy
+        :alt: Coverage
+
 
 .. image:: https://readthedocs.org/projects/mlfinpy/badge/?version=latest
         :target: https://mlfinpy.readthedocs.io/en/latest/?version=latest
         :alt: Documentation Status
-
-
-.. image:: https://pyup.io/repos/github/baobach/mlfinpy/shield.svg
-     :target: https://pyup.io/repos/github/baobach/mlfinpy/
-     :alt: Updates
-
-
-
-Mlfin.py is an Advance Machine Learning toolbox for financial applications.
 
 
 * Free software: MIT license
