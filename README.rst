@@ -1,5 +1,5 @@
 =======
-Mlfin.py is an Advance Machine Learning toolbox for financial applications.
+Mlfinpy is an Advance Machine Learning toolbox for financial applications.
 =======
 
 
