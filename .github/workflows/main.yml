@@ -3,9 +3,11 @@ name: ci-cd
 on: [push, pull_request]
 
 jobs:
-  ci:
+  test:
     # Set up operating system
     runs-on: ubuntu-latest
+
+    name: Test 📦 and build 📝
 
     # Define job steps
     steps:
@@ -28,8 +30,8 @@ jobs:
 
       - name: Use Codecov to track coverage
         uses: codecov/codecov-action@v4
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          file: ./path/to/coverage.xml
 
       - name: Check with isort
         run: |
@@ -43,11 +45,17 @@ jobs:
         run: |
             flake8 --show-source --statistics .
             - name: Test with pytest
-  
+
       - name: Build documentation
         run: poetry run make html --directory docs/
 
   build:
+
+    # Only run this job if the "ci" job passes
+    needs: test
+    # Only run this job if new work is pushed to "main"
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
     name: Build distribution 📦
     runs-on: ubuntu-latest
 
@@ -73,7 +81,7 @@ jobs:
 
   publish-to-pypi:
     name: >-
-      Publish Python 🐍 distribution 📦 to PyPI
+      Publish 🐍📦 to PyPI
     if: startsWith(github.ref, 'refs/tags/')  # only publish to PyPI on tag pushes
     needs:
     - build
@@ -95,7 +103,7 @@ jobs:
 
   github-release:
     name: >-
-      Sign the Python 🐍 distribution 📦 with Sigstore
+      Sign 🐍📦 with Sigstore
       and upload them to GitHub Release
     needs:
     - publish-to-pypi
@@ -137,7 +145,7 @@ jobs:
         --repo '${{ github.repository }}'
 
   publish-to-testpypi:
-    name: Publish Python 🐍 distribution 📦 to TestPyPI
+    name: Publish 🐍📦 to TestPyPI
     needs:
     - build
     runs-on: ubuntu-latest

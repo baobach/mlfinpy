@@ -1,10 +1,13 @@
 """
-Filters are used to filter events based on some kind of trigger. For example a structural break filter can be used to filter events where a structural break occurs. This event is then used to measure the return from the event to some event horizon, say a day.
+Filters are used to filter events based on some kind of trigger. For example a structural break
+filter can be used to filter events where a structural break occurs. This event is then used to
+measure the return from the event to some event horizon, say a day.
 """
+
+from typing import Union
 
 import numpy as np
 import pandas as pd
-from typing import Union
 
 
 # Snippet 2.4, page 39, The Symmetric CUSUM Filter.
@@ -14,13 +17,22 @@ def cusum_filter(
     """
     The Symmetric Dynamic/Fixed CUSUM Filter.
 
-    The CUSUM filter is a quality-control method, designed to detect a shift in the mean value of a measured quantity away from a target value. The filter is set up to identify a sequence of upside or downside divergences from any reset level zero. We sample a bar t if and only if S_t >= threshold, at which point S_t is reset to 0.
+    The CUSUM filter is a quality-control method, designed to detect a shift in the mean value of
+    a measured quantity away from a target value. The filter is set up to identify a sequence of
+    pside or downside divergences from any reset level zero. We sample a bar t if and only
+    if S_t >= threshold, at which point S_t is reset to 0.
 
-    One practical aspect that makes CUSUM filters appealing is that multiple events are not triggered by raw_time_series hovering around a threshold level, which is a flaw suffered by popular market signals such as Bollinger Bands. It will require a full run of length threshold for raw_time_series to trigger an event.
+    One practical aspect that makes CUSUM filters appealing is that multiple events are not
+    triggered by raw_time_series hovering around a threshold level, which is a flaw suffered
+    by popular market signals such as Bollinger Bands. It will require a full run of length
+    threshold for raw_time_series to trigger an event.
 
-    Once we have obtained this subset of event-driven bars, we will let the ML algorithm determine whether the occurrence of such events constitutes actionable intelligence. Below is an implementation of the Symmetric CUSUM filter.
+    Once we have obtained this subset of event-driven bars, we will let the ML algorithm determine
+    whether the occurrence of such events constitutes actionable intelligence. Below is an implementation
+    of the Symmetric CUSUM filter.
 
-    Note: As per the book this filter is applied to closing prices but we extended it to also work on other time series such as volatility.
+    Note: As per the book this filter is applied to closing prices but we extended
+    it to also work on other time series such as volatility.
 
     Parameters
     ----------
@@ -112,7 +124,9 @@ def z_score_filter(
 
     Notes
     -----
-    Reference: Implement the idea of z-score filter here at [StackOverflow Question](https://stackoverflow.com/questions/22583391/peak-signal-detection-in-realtime-timeseries-data).
+    Reference: Implement the idea of z-score filter here at
+    [StackOverflow Question]
+    (https://stackoverflow.com/questions/22583391/peak-signal-detection-in-realtime-timeseries-data).
     """
     t_events = raw_time_series[
         raw_time_series

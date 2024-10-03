@@ -11,7 +11,6 @@ from mlfinpy.labeling.labeling import (
     get_events,
 )
 
-
 __all__ = [
     "add_vertical_barrier",
     "apply_pt_sl_on_t1",

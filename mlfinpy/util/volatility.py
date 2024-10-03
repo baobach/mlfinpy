@@ -2,9 +2,8 @@
 This module contain a collection of volatility estimators.
 """
 
-import pandas as pd
 import numpy as np
-
+import pandas as pd
 
 # pylint: disable=redefined-builtin
 
@@ -42,9 +41,7 @@ def get_daily_vol(close: pd.Series, lookback: int = 100) -> pd.Series:
     # daily vol re-indexed to close
     df0 = close.index.searchsorted(close.index - pd.Timedelta(days=1))
     df0 = df0[df0 > 0]
-    df0 = pd.Series(
-        close.index[df0 - 1], index=close.index[close.shape[0] - df0.shape[0] :]
-    )
+    df0 = pd.Series(close.index[df0 - 1], index=close.index[close.shape[0] - df0.shape[0] :])
 
     df0 = close.loc[df0.index] / close.loc[df0.array].array - 1  # daily returns
     df0 = df0.ewm(span=lookback).std()
@@ -146,18 +143,10 @@ def get_yang_zhang_vol(
     low_close_ret = np.log(low / close)
     low_open_ret = np.log(low / open)
 
-    sigma_open_sq = (
-        1 / (window - 1) * (open_prev_close_ret**2).rolling(window=window).sum()
-    )
-    sigma_close_sq = (
-        1 / (window - 1) * (close_prev_open_ret**2).rolling(window=window).sum()
-    )
+    sigma_open_sq = 1 / (window - 1) * (open_prev_close_ret**2).rolling(window=window).sum()
+    sigma_close_sq = 1 / (window - 1) * (close_prev_open_ret**2).rolling(window=window).sum()
     sigma_rs_sq = (
-        1
-        / (window - 1)
-        * (high_close_ret * high_open_ret + low_close_ret * low_open_ret)
-        .rolling(window=window)
-        .sum()
+        1 / (window - 1) * (high_close_ret * high_open_ret + low_close_ret * low_open_ret).rolling(window=window).sum()
     )
 
     return np.sqrt(sigma_open_sq + k * sigma_close_sq + (1 - k) * sigma_rs_sq)

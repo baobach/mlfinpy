@@ -2,8 +2,9 @@
 Tests for the `util.fast_ewma` module.
 """
 
-import unittest
 import os
+import unittest
+
 import numpy as np
 import pandas as pd
 

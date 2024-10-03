@@ -10,7 +10,8 @@ Lopez de Prado, et al.
 """
 
 # Imports
-from typing import Union, Iterable, Optional
+from typing import Iterable, Optional, Union
+
 import numpy as np
 import pandas as pd
 
@@ -20,7 +21,9 @@ from mlfinpy.data_structure.base_bars import BaseBars
 # pylint: disable=too-many-instance-attributes
 class TimeBars(BaseBars):
     """
-    Encapsulates the logic for constructing the time bars from Chapter 2 of "Advances in Financial Machine Learning" by Marcos Lopez de Prado. This class is not intended for direct use. Instead, utilize package functions like `get_time_bars` to create an instance and construct the time bars.
+    Encapsulates the logic for constructing the time bars from Chapter 2 of "Advances in Financial Machine Learning"
+    by Marcos Lopez de Prado. This class is not intended for direct use. Instead, utilize package functions like
+    `get_time_bars` to create an instance and construct the time bars.
     """
 
     def __init__(self, resolution: str, num_units: int, batch_size: int = 20000000):
@@ -45,9 +48,7 @@ class TimeBars(BaseBars):
             "MIN": 60,
             "S": 1,
         }  # Number of seconds
-        assert (
-            resolution in self.time_bar_thresh_mapping
-        ), "{} resolution is not implemented".format(resolution)
+        assert resolution in self.time_bar_thresh_mapping, "{} resolution is not implemented".format(resolution)
         self.resolution = resolution  # Type of bar resolution: 'D', 'H', 'MIN', 'S'
         self.num_units = num_units  # Number of days/minutes/...
         self.threshold = self.num_units * self.time_bar_thresh_mapping[self.resolution]
@@ -146,14 +147,16 @@ def get_time_bars(
     output_path: Optional[str] = None,
 ):
     """
-    Create a DataFrame of time bars with columns: date_time, open, high, low, close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
+    Create a DataFrame of time bars with columns: date_time, open, high, low, close, volume,
+    cum_buy_volume, cum_ticks, cum_dollar_value.
 
     Parameters
     ----------
     file_path_or_df : str or iterable of str or pd.DataFrame
         Path to the csv file(s) or Pandas Data Frame containing raw tick data in the format[date_time, price, volume].
     resolution : str
-        Resolution type ('D', 'H', 'MIN', 'S') is the resolution of the time bars in the format Day, Hour, Minute, or Second.
+        Resolution type ('D', 'H', 'MIN', 'S') is the resolution of the time bars in the format
+        Day, Hour, Minute, or Second.
     num_units : int
         Number of days, minutes, etc.
     batch_size : int
@@ -172,7 +175,9 @@ def get_time_bars(
 
     Notes
     -----
-    Following the paper "The Volume Clock: Insights into the high frequency paradigm" by Lopez de Prado, et al, it is suggested that using 1/50 of the average daily dollar value, would result in more desirable statistical properties.
+    Following the paper "The Volume Clock: Insights into the high frequency paradigm" by Lopez de Prado, et al,
+    it is suggested that using 1/50 of the average daily dollar value, would result in more desirable
+    statistical properties.
     """
 
     bars = TimeBars(resolution=resolution, num_units=num_units, batch_size=batch_size)

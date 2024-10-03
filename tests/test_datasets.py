@@ -3,10 +3,11 @@ Tests for the `dataset` module.
 """
 
 import unittest
+
 from mlfinpy.dataset.load_datasets import (
-    load_tick_sample,
-    load_stock_prices,
     load_dollar_bar_sample,
+    load_stock_prices,
+    load_tick_sample,
 )
 
 

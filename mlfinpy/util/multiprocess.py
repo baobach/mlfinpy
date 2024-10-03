@@ -2,12 +2,12 @@
 Contains the logic from chapter 20 on multiprocessing and vectorization.
 """
 
+import datetime as dt
+import multiprocessing as mp
+
 # Start imports
 import sys
 import time
-import datetime as dt
-
-import multiprocessing as mp
 
 import numpy as np
 import pandas as pd
@@ -47,9 +47,7 @@ def lin_parts(num_atoms: int, num_threads: int) -> np.ndarray:
 
 
 # Snippet 20.6 (page 308), The nested_parts function
-def nested_parts(
-    num_atoms: int, num_threads: int, upper_triangle: bool = False
-) -> np.ndarray:
+def nested_parts(num_atoms: int, num_threads: int, upper_triangle: bool = False) -> np.ndarray:
     """
     This function enables parallelization of nested loops.
 
@@ -76,9 +74,7 @@ def nested_parts(
     num_threads_ = min(num_threads, num_atoms)
 
     for _ in range(num_threads_):
-        part = 1 + 4 * (
-            parts[-1] ** 2 + parts[-1] + num_atoms * (num_atoms + 1.0) / num_threads_
-        )
+        part = 1 + 4 * (parts[-1] ** 2 + parts[-1] + num_atoms * (num_atoms + 1.0) / num_threads_)
         part = (-1 + part**0.5) / 2.0
         parts.append(part)
 
@@ -289,9 +285,7 @@ def report_progress(job_num: int, num_jobs: int, time0: float, task: str) -> Non
         )  # Snippet 20.9.2, pg 312, Example of Asynchronous call to pythons multiprocessing library
 
 
-def process_jobs(
-    jobs: list, task: str = None, num_threads: int = 24, verbose: bool = True
-) -> None:
+def process_jobs(jobs: list, task: str = None, num_threads: int = 24, verbose: bool = True) -> None:
     """
     Example of Asynchronous call to pythons multiprocessing library
 

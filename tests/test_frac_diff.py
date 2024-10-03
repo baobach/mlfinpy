@@ -2,17 +2,18 @@
 Tests for the `util.frac_diff` module.
 """
 
-import unittest
-import os
 import math
+import os
+import unittest
+
 import numpy as np
 import pandas as pd
 
 from mlfinpy.util.frac_diff import (
-    get_weights,
-    get_weights_ffd,
     frac_diff,
     frac_diff_ffd,
+    get_weights,
+    get_weights_ffd,
 )
 
 
@@ -46,9 +47,7 @@ class TestFractionalDifferentiation(unittest.TestCase):
         self.assertTrue(weights[-1] == 1.0)
 
         # Size matches
-        self.assertTrue(
-            weights.shape[0] == number_ele
-        )  # pylint: disable=unsubscriptable-object
+        self.assertTrue(weights.shape[0] == number_ele)  # pylint: disable=unsubscriptable-object
 
     def test_get_weights_ffd(self):
         """
@@ -68,9 +67,7 @@ class TestFractionalDifferentiation(unittest.TestCase):
         self.assertTrue(weights[-1] == 1.0)
 
         # Size matches
-        self.assertTrue(
-            weights.shape[0] == 12
-        )  # pylint: disable=unsubscriptable-object
+        self.assertTrue(weights.shape[0] == 12)  # pylint: disable=unsubscriptable-object
 
     def test_frac_diff(self):
         """
@@ -84,8 +81,7 @@ class TestFractionalDifferentiation(unittest.TestCase):
             fd_series = frac_diff(data_series, diff_amt=diff_amt)
             self.assertTrue(fd_series.shape[0] == len(data_series))
             self.assertTrue(
-                isinstance(fd_series["close"].iloc[0], np.float64)
-                and math.isnan(fd_series["close"].iloc[0])
+                isinstance(fd_series["close"].iloc[0], np.float64) and math.isnan(fd_series["close"].iloc[0])
             )
 
     def test_frac_diff_ffd(self):
@@ -100,6 +96,5 @@ class TestFractionalDifferentiation(unittest.TestCase):
             fd_series = frac_diff_ffd(data_series, diff_amt=diff_amt)
             self.assertTrue(fd_series.shape[0] == len(data_series))
             self.assertTrue(
-                isinstance(fd_series["close"].iloc[0], np.float64)
-                and math.isnan(fd_series["close"].iloc[0])
+                isinstance(fd_series["close"].iloc[0], np.float64) and math.isnan(fd_series["close"].iloc[0])
             )

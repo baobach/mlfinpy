@@ -9,6 +9,6 @@ Roadmap and Changelog
 
 Initial release:
 
-- Implement Standard 
+- Implement Standard
 - Tests
 - Docs

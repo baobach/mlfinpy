@@ -1,20 +1,20 @@
+from typing import List, Optional, Union
+
 import numpy as np
 import pandas as pd
-from typing import List, Optional, Union
 
 from mlfinpy.util.multiprocess import mp_pandas_obj
 
 
 # Snippet 3.2, page 45, Triple Barrier Labeling Method
-def apply_pt_sl_on_t1(
-    close: pd.Series, events: pd.Series, pt_sl: np.array, molecule: np.array
-) -> pd.DataFrame:
+def apply_pt_sl_on_t1(close: pd.Series, events: pd.Series, pt_sl: np.array, molecule: np.array) -> pd.DataFrame:
     # pragma: no cover
     """
     Triple Barrier Labeling Method
 
-    This function applies the triple-barrier labeling method. It works on a set of datetime index values (molecule). This allows the program to parallelize the processing.
-    Mainly it returns a DataFrame of timestamps regarding the time when the first barriers were reached.
+    This function applies the triple-barrier labeling method. It works on a set of datetime index values (molecule).
+    This allows the program to parallelize the processing.Mainly it returns a DataFrame of timestamps
+    regarding the time when the first barriers were reached.
 
     Parameters
     ----------
@@ -61,23 +61,15 @@ def apply_pt_sl_on_t1(
     # Get events
     for loc, vertical_barrier in events_["t1"].fillna(close.index[-1]).items():
         closing_prices = close[loc:vertical_barrier]  # Path prices for a given trade
-        cum_returns = (closing_prices / close[loc] - 1) * events_.at[
-            loc, "side"
-        ]  # Path returns
-        out.at[loc, "sl"] = cum_returns[
-            cum_returns < stop_loss[loc]
-        ].index.min()  # Earliest stop loss date
-        out.at[loc, "pt"] = cum_returns[
-            cum_returns > profit_taking[loc]
-        ].index.min()  # Earliest profit taking date
+        cum_returns = (closing_prices / close[loc] - 1) * events_.at[loc, "side"]  # Path returns
+        out.at[loc, "sl"] = cum_returns[cum_returns < stop_loss[loc]].index.min()  # Earliest stop loss date
+        out.at[loc, "pt"] = cum_returns[cum_returns > profit_taking[loc]].index.min()  # Earliest profit taking date
 
     return out
 
 
 # Snippet 3.4 page 49, Adding a Vertical Barrier
-def add_vertical_barrier(
-    t_events, close, num_days=0, num_hours=0, num_minutes=0, num_seconds=0
-):
+def add_vertical_barrier(t_events, close, num_days=0, num_hours=0, num_minutes=0, num_seconds=0):
     """
     Adding a Vertical Barrier
 
@@ -113,9 +105,7 @@ def add_vertical_barrier(
 
     # Create a timedelta object based on the input parameters
     timedelta = pd.Timedelta(
-        "{} days, {} hours, {} minutes, {} seconds".format(
-            num_days, num_hours, num_minutes, num_seconds
-        )
+        "{} days, {} hours, {} minutes, {} seconds".format(num_days, num_hours, num_minutes, num_seconds)
     )
 
     # Find index to closest to vertical barrier
@@ -204,15 +194,11 @@ def get_events(
         side_ = pd.Series(1.0, index=target.index)
         pt_sl_ = [pt_sl[0], pt_sl[0]]
     else:
-        side_ = side_prediction.reindex(
-            target.index
-        )  # Subset side_prediction on target index.
+        side_ = side_prediction.reindex(target.index)  # Subset side_prediction on target index.
         pt_sl_ = pt_sl[:2]
 
     # Create a new df with [v_barrier, target, side] and drop rows that are NA in target
-    events = pd.concat(
-        {"t1": vertical_barrier_times, "trgt": target, "side": side_}, axis=1
-    )
+    events = pd.concat({"t1": vertical_barrier_times, "trgt": target, "side": side_}, axis=1)
     events = events.dropna(subset=["trgt"])
 
     # Apply Triple Barrier
@@ -331,9 +317,7 @@ def get_bins(triple_barrier_events: pd.DataFrame, close: pd.Series) -> pd.DataFr
     # 2) Create out DataFrame
     out_df = pd.DataFrame(index=events_.index)
     # Need to take the log returns, else your results will be skewed for short positions
-    out_df["ret"] = np.log(prices.loc[events_["t1"].array].array) - np.log(
-        prices.loc[events_.index]
-    )
+    out_df["ret"] = np.log(prices.loc[events_["t1"].array].array) - np.log(prices.loc[events_.index])
     out_df["trgt"] = events_["trgt"]
 
     # Meta labeling: Events that were correct will have pos returns

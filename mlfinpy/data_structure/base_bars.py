@@ -5,7 +5,7 @@ Provides shared logic to minimize duplicated code across bar type implementation
 """
 
 from abc import ABC, abstractmethod
-from typing import Tuple, Union, Generator, Iterable, Optional
+from typing import Generator, Iterable, Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
@@ -16,7 +16,8 @@ from mlfinpy.util.helper import crop_data_frame_in_batches
 
 class BaseBars(ABC):
     """
-    Abstract base class for financial data structures, providing a shared structure for standard and information-driven bars.
+    Abstract base class for financial data structures, providing a shared structure for standard
+    and information-driven bars.
     This class contains common attributes and methods for bar types, including those specific to information bars.
     """
 
@@ -48,9 +49,7 @@ class BaseBars(ABC):
         self.tick_num = 0  # Tick number when bar was formed
 
         # Batch_run properties
-        self.flag = (
-            False  # The first flag is false since the first batch doesn't use the cache
-        )
+        self.flag = False  # The first flag is false since the first batch doesn't use the cache
 
     def batch_run(
         self,
@@ -60,16 +59,19 @@ class BaseBars(ABC):
         output_path: Optional[str] = None,
     ) -> Union[pd.DataFrame, None]:
         """
-        Reads csv file(s) or pd.DataFrame in batches and constructs the financial data structure in the form of a DataFrame.
+        Reads csv file(s) or pd.DataFrame in batches and constructs the financial data structure
+        in the form of a DataFrame.
 
         Parameters
         ----------
         file_path_or_df : str, iterable of str, or pd.DataFrame
-            Path to the csv file(s) or Pandas Data Frame containing raw tick data in the format [date_time, price, volume]
+            Path to the csv file(s) or Pandas Data Frame containing raw tick data in
+            the format [date_time, price, volume]
         verbose : bool, optional
             Flag whether to print message on each processed batch or not (default is True)
         to_csv : bool, optional
-            Flag for writing the results of bars generation to local csv file, or to in-memory DataFrame (default is False)
+            Flag for writing the results of bars generation to local csv file, or to in-memory
+            DataFrame (default is False)
         output_path : str, optional
             Path to results file, if to_csv is True (default is None)
 
@@ -84,9 +86,7 @@ class BaseBars(ABC):
         """
 
         if to_csv is True:
-            header = (
-                True  # if to_csv is True, header should written on the first batch only
-            )
+            header = True  # if to_csv is True, header should written on the first batch only
             open(output_path, "w").close()  # clean output csv file
 
         if verbose:  # pragma: no cover
@@ -114,9 +114,7 @@ class BaseBars(ABC):
             list_bars = self.run(raw_tick_data=batch)
 
             if to_csv is True:
-                pd.DataFrame(list_bars, columns=cols).to_csv(
-                    output_path, header=header, index=False, mode="a"
-                )
+                pd.DataFrame(list_bars, columns=cols).to_csv(output_path, header=header, index=False, mode="a")
                 header = False
             else:
                 # Append to bars list
@@ -159,16 +157,12 @@ class BaseBars(ABC):
             for file_path in file_path_or_df:
                 self._read_first_row(file_path)
             for file_path in file_path_or_df:
-                for batch in pd.read_csv(
-                    file_path, chunksize=self.batch_size, parse_dates=[0]
-                ):
+                for batch in pd.read_csv(file_path, chunksize=self.batch_size, parse_dates=[0]):
                     yield batch
 
         elif isinstance(file_path_or_df, str):
             self._read_first_row(file_path_or_df)
-            for batch in pd.read_csv(
-                file_path_or_df, chunksize=self.batch_size, parse_dates=[0]
-            ):
+            for batch in pd.read_csv(file_path_or_df, chunksize=self.batch_size, parse_dates=[0]):
                 yield batch
 
         elif isinstance(file_path_or_df, pd.DataFrame):
@@ -177,7 +171,8 @@ class BaseBars(ABC):
 
         else:
             raise ValueError(
-                "Invalid input type for file_path_or_df. Expected a string (path to a csv file), an iterable of strings, or a pd.DataFrame."
+                "Invalid input type for file_path_or_df. Expected a string (path to a csv file), \
+                an iterable of strings, or a pd.DataFrame."
             )
 
     def _read_first_row(self, file_path: str):
@@ -199,7 +194,8 @@ class BaseBars(ABC):
 
     def run(self, raw_tick_data: Union[list, tuple, pd.DataFrame]) -> list:
         """
-        Reads a List, Tuple, or Dataframe and then constructs the financial data structure in the form of a list.
+        Reads a List, Tuple, or Dataframe and then constructs the financial data structure
+        in the form of a list.
         The List, Tuple, or DataFrame must have only 3 columns: date_time, price, & volume.
 
         Parameters
@@ -227,9 +223,7 @@ class BaseBars(ABC):
                 values = idx_reset.values
 
         else:
-            raise ValueError(
-                "The `raw_tick_data` is neither list nor tuple nor pd.DataFrame"
-            )
+            raise ValueError("The `raw_tick_data` is neither list nor tuple nor pd.DataFrame")
 
         list_bars = self._extract_bars(raw_tick_data=values)
 
@@ -276,15 +270,9 @@ class BaseBars(ABC):
         ValueError
             If the csv file format is invalid.
         """
-        assert (
-            test_batch.shape[1] == 3
-        ), "CSV file must have exactly 3 columns: `date_time`, `price`, and `volume`."
-        assert isinstance(
-            test_batch.iloc[0, 1], float
-        ), "Price column in CSV file must be of type float."
-        assert not isinstance(
-            test_batch.iloc[0, 2], str
-        ), "Volume column in CSV file must be of type int or float."
+        assert test_batch.shape[1] == 3, "CSV file must have exactly 3 columns: `date_time`, `price`, and `volume`."
+        assert isinstance(test_batch.iloc[0, 1], float), "Price column in CSV file must be of type float."
+        assert not isinstance(test_batch.iloc[0, 2], str), "Volume column in CSV file must be of type int or float."
 
         try:
             pd.to_datetime(test_batch.iloc[0, 0])
@@ -329,7 +317,8 @@ class BaseBars(ABC):
         list_bars: list,
     ) -> None:
         """
-        Given the inputs, construct a bar which has the following fields: date_time, open, high, low, close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
+        Given the inputs, construct a bar which has the following fields: date_time, open, high,
+        low, close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
 
         Parameters
         ----------
@@ -346,7 +335,8 @@ class BaseBars(ABC):
 
         Notes
         -----
-        The date_time, price, and volume are expected to be consistent with the input data format specified in batch_run.
+        The date_time, price, and volume are expected to be consistent with the
+        input data format specified in batch_run.
         """
         # Create bars
         open_price = self.open_price
@@ -428,25 +418,14 @@ class BaseBars(ABC):
         -----
         Advances in Financial Machine Learning, page 29.
         """
-        if (
-            self.inform_bar_type == "tick_imbalance"
-            or self.inform_bar_type == "tick_run"
-        ):
+        if self.inform_bar_type == "tick_imbalance" or self.inform_bar_type == "tick_run":
             imbalance = signed_tick
-        elif (
-            self.inform_bar_type == "dollar_imbalance"
-            or self.inform_bar_type == "dollar_run"
-        ):
+        elif self.inform_bar_type == "dollar_imbalance" or self.inform_bar_type == "dollar_run":
             imbalance = signed_tick * volume * price
-        elif (
-            self.inform_bar_type == "volume_imbalance"
-            or self.inform_bar_type == "volume_run"
-        ):
+        elif self.inform_bar_type == "volume_imbalance" or self.inform_bar_type == "volume_run":
             imbalance = signed_tick * volume
         else:
-            raise ValueError(
-                "Unknown information bar type, possible values are tick/dollar/volume imbalance/run type."
-            )
+            raise ValueError("Unknown information bar type, possible values are tick/dollar/volume imbalance/run type.")
         return imbalance
 
 
@@ -558,9 +537,7 @@ class BaseImbalanceBars(BaseBars):
 
             # Get expected imbalance for the first time, when num_ticks_init passed
             if not list_bars and np.isnan(self.thresholds["expected_imbalance"]):
-                self.thresholds["expected_imbalance"] = self._get_expected_imbalance(
-                    self.expected_imbalance_window
-                )
+                self.thresholds["expected_imbalance"] = self._get_expected_imbalance(self.expected_imbalance_window)
 
             if self.bars_thresholds is not None:
                 self.thresholds["timestamp"] = date_time
@@ -569,24 +546,17 @@ class BaseImbalanceBars(BaseBars):
             # Check expression for possible bar generation
             if (
                 np.abs(self.thresholds["cum_theta"])
-                > self.thresholds["exp_num_ticks"]
-                * np.abs(self.thresholds["expected_imbalance"])
+                > self.thresholds["exp_num_ticks"] * np.abs(self.thresholds["expected_imbalance"])
                 if ~np.isnan(self.thresholds["expected_imbalance"])
                 else False
             ):
-                self._create_bars(
-                    date_time, price, self.high_price, self.low_price, list_bars
-                )
+                self._create_bars(date_time, price, self.high_price, self.low_price, list_bars)
 
-                self.imbalance_tick_statistics["num_ticks_bar"].append(
-                    self.cum_statistics["cum_ticks"]
-                )
+                self.imbalance_tick_statistics["num_ticks_bar"].append(self.cum_statistics["cum_ticks"])
                 # Expected number of ticks based on formed bars
                 self.thresholds["exp_num_ticks"] = self._get_exp_num_ticks()
                 # Get expected imbalance
-                self.thresholds["expected_imbalance"] = self._get_expected_imbalance(
-                    self.expected_imbalance_window
-                )
+                self.thresholds["expected_imbalance"] = self._get_expected_imbalance(self.expected_imbalance_window)
                 # Reset counters
                 self._reset_cache()
 
@@ -594,7 +564,8 @@ class BaseImbalanceBars(BaseBars):
 
     def _get_expected_imbalance(self, window: int):
         """
-        Calculate the expected imbalance: 2P[b_t=1]-1, using an exponentially weighted moving average (EWMA), as described in the batch run documentation (pg 29).
+        Calculate the expected imbalance: 2P[b_t=1]-1, using an exponentially weighted moving average (EWMA),
+        as described in the batch run documentation (pg 29).
 
         Parameters
         ----------
@@ -610,18 +581,13 @@ class BaseImbalanceBars(BaseBars):
         -----
         Unconditional probability that a tick formulas in page 29.
         """
-        if (
-            len(self.imbalance_tick_statistics["imbalance_array"])
-            < self.thresholds["exp_num_ticks"]
-        ):
+        if len(self.imbalance_tick_statistics["imbalance_array"]) < self.thresholds["exp_num_ticks"]:
             # Waiting for array to fill for ewma
             ewma_window = np.nan
         else:
             # ewma window can be either the window specified in a function call
             # or it is len of imbalance_array if window > len(imbalance_array)
-            ewma_window = int(
-                min(len(self.imbalance_tick_statistics["imbalance_array"]), window)
-            )
+            ewma_window = int(min(len(self.imbalance_tick_statistics["imbalance_array"]), window))
 
         if np.isnan(ewma_window):
             # return nan, wait until len(self.imbalance_array) >= self.exp_num_ticks_init
@@ -773,9 +739,7 @@ class BaseRunBars(BaseBars):
                 self.thresholds["cum_theta_buy"] += imbalance
                 self.thresholds["buy_ticks_num"] += 1
             elif imbalance < 0:
-                self.imbalance_tick_statistics["imbalance_array_sell"].append(
-                    abs(imbalance)
-                )
+                self.imbalance_tick_statistics["imbalance_array_sell"].append(abs(imbalance))
                 self.thresholds["cum_theta_sell"] += abs(imbalance)
 
             self.warm_up_flag = np.isnan(
@@ -810,8 +774,7 @@ class BaseRunBars(BaseBars):
                     is False
                 ):
                     self.thresholds["exp_buy_ticks_proportion"] = (
-                        self.thresholds["buy_ticks_num"]
-                        / self.cum_statistics["cum_ticks"]
+                        self.thresholds["buy_ticks_num"] / self.cum_statistics["cum_ticks"]
                     )
 
             if self.bars_thresholds is not None:
@@ -820,26 +783,16 @@ class BaseRunBars(BaseBars):
 
             # Check expression for possible bar generation
             max_proportion = max(
-                self.thresholds["exp_imbalance_buy"]
-                * self.thresholds["exp_buy_ticks_proportion"],
-                self.thresholds["exp_imbalance_sell"]
-                * (1 - self.thresholds["exp_buy_ticks_proportion"]),
+                self.thresholds["exp_imbalance_buy"] * self.thresholds["exp_buy_ticks_proportion"],
+                self.thresholds["exp_imbalance_sell"] * (1 - self.thresholds["exp_buy_ticks_proportion"]),
             )
 
             # Check expression for possible bar generation
-            max_theta = max(
-                self.thresholds["cum_theta_buy"], self.thresholds["cum_theta_sell"]
-            )
-            if max_theta > self.thresholds[
-                "exp_num_ticks"
-            ] * max_proportion and not np.isnan(max_proportion):
-                self._create_bars(
-                    date_time, price, self.high_price, self.low_price, list_bars
-                )
+            max_theta = max(self.thresholds["cum_theta_buy"], self.thresholds["cum_theta_sell"])
+            if max_theta > self.thresholds["exp_num_ticks"] * max_proportion and not np.isnan(max_proportion):
+                self._create_bars(date_time, price, self.high_price, self.low_price, list_bars)
 
-                self.imbalance_tick_statistics["num_ticks_bar"].append(
-                    self.cum_statistics["cum_ticks"]
-                )
+                self.imbalance_tick_statistics["num_ticks_bar"].append(self.cum_statistics["cum_ticks"])
                 self.imbalance_tick_statistics["buy_ticks_proportion"].append(
                     self.thresholds["buy_ticks_num"] / self.cum_statistics["cum_ticks"]
                 )
@@ -850,9 +803,7 @@ class BaseRunBars(BaseBars):
                 # Expected buy ticks proportion based on formed bars
                 exp_buy_ticks_proportion = ewma(
                     np.array(
-                        self.imbalance_tick_statistics["buy_ticks_proportion"][
-                            -self.num_prev_bars :
-                        ],
+                        self.imbalance_tick_statistics["buy_ticks_proportion"][-self.num_prev_bars :],
                         dtype=float,
                     ),
                     self.num_prev_bars,
@@ -876,7 +827,8 @@ class BaseRunBars(BaseBars):
 
     def _get_expected_imbalance(self, array: list, window: int, warm_up: bool = False):
         """
-        Calculate the expected imbalance: 2P[b_t=1]-1, using an exponentially weighted moving average (EWMA), as described in the batch run documentation (pg 29).
+        Calculate the expected imbalance: 2P[b_t=1]-1, using an exponentially weighted moving average (EWMA),
+        as described in the batch run documentation (pg 29).
 
         Parameters
         ----------
@@ -908,9 +860,7 @@ class BaseRunBars(BaseBars):
             # return nan, wait until len(self.imbalance_array) >= self.exp_num_ticks_init
             expected_imbalance = np.nan
         else:
-            expected_imbalance = ewma(
-                np.array(array[-ewma_window:], dtype=float), window=ewma_window
-            )[-1]
+            expected_imbalance = ewma(np.array(array[-ewma_window:], dtype=float), window=ewma_window)[-1]
 
         return expected_imbalance
 

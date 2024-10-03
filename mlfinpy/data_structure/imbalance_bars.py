@@ -14,15 +14,15 @@ interval sampling. A great paper to read more about this is titled: The Volume C
 frequency paradigm, Lopez de Prado, et al. These ideas are then extended in another paper: Flow toxicity and liquidity
 in a high-frequency world.
 
-We have introduced two types of imbalance bars: with expected number of tick defined through EMA (book implementation) and
-constant number of ticks.
+We have introduced two types of imbalance bars: with expected number of tick defined through
+EMA (book implementation) and constant number of ticks.
 
 A good blog post to read, which helped us a lot in the implementation here is writen by Maksim Ivanov:
 https://towardsdatascience.com/financial-machine-learning-part-0-bars-745897d4e4ba
 """
 
 # Imports
-from typing import Union, Iterable, List, Optional, Tuple
+from typing import Iterable, List, Optional, Tuple, Union
 
 import numpy as np
 import pandas as pd
@@ -33,7 +33,10 @@ from mlfinpy.util.fast_ewma import ewma
 
 class EMAImbalanceBars(BaseImbalanceBars):
     """
-    Encapsulates the logic for constructing the imbalance bars from chapter 2 of "Advances in Financial Machine Learning" by Marcos Lopez de Prado. This class is not intended for direct use. Instead, utilize package functions like `get_ema_dollar_imbalance_bars` to create an instance and construct the imbalance bars.
+    Encapsulates the logic for constructing the imbalance bars from chapter 2 of
+    "Advances in Financial Machine Learning" by Marcos Lopez de Prado. This class is not
+    intended for direct use. Instead, utilize package functions like `get_ema_dollar_imbalance_bars`
+    to create an instance and construct the imbalance bars.
     """
 
     def __init__(
@@ -95,7 +98,10 @@ class EMAImbalanceBars(BaseImbalanceBars):
 
 class ConstImbalanceBars(BaseImbalanceBars):
     """
-    Encapsulates the logic for constructing the imbalance bars from chapter 2 of "Advances in Financial Machine Learning" by Marcos Lopez de Prado. This class is not intended for direct use. Instead, utilize package functions like `get_ema_dollar_imbalance_bars` to create an instance and construct the imbalance bars.
+    Encapsulates the logic for constructing the imbalance bars from chapter 2 of
+    "Advances in Financial Machine Learning" by Marcos Lopez de Prado. This class
+    is not intended for direct use. Instead, utilize package functions like
+    `get_ema_dollar_imbalance_bars` to create an instance and construct the imbalance bars.
     """
 
     def __init__(
@@ -147,7 +153,8 @@ def get_ema_dollar_imbalance_bars(
     output_path: Optional[str] = None,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Creates a DataFrame of EMA dollar imbalance bars with columns: date_time, open, high, low, close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
+    Creates a DataFrame of EMA dollar imbalance bars with columns: date_time, open, high, low,
+    close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
 
     Parameters
     ----------
@@ -211,7 +218,8 @@ def get_ema_volume_imbalance_bars(
     output_path: Optional[str] = None,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Creates a DataFrame of EMA volume imbalance bars with columns: date_time, open, high, low, close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
+    Creates a DataFrame of EMA volume imbalance bars with columns: date_time, open, high, low,
+    close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
 
     Parameters
     ----------
@@ -275,7 +283,8 @@ def get_ema_tick_imbalance_bars(
     output_path: Optional[str] = None,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Creates a DataFrame of EMA tick imbalance bars with columns: date_time, open, high, low, close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
+    Creates a DataFrame of EMA tick imbalance bars with columns: date_time, open, high, low,
+    close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
 
     Parameters
     ----------
@@ -337,7 +346,8 @@ def get_const_dollar_imbalance_bars(
     output_path: Optional[str] = None,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Creates a DataFrame of Const dollar imbalance bars with columns: date_time, open, high, low, close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
+    Creates a DataFrame of Const dollar imbalance bars with columns: date_time, open, high, low,
+    close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
 
     Parameters
     ----------
@@ -393,7 +403,8 @@ def get_const_volume_imbalance_bars(
     output_path: Optional[str] = None,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Creates a DataFrame of Const volume imbalance bars with columns: date_time, open, high, low, close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
+    Creates a DataFrame of Const volume imbalance bars with columns: date_time, open, high, low,
+    close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
 
     Parameters
     ----------
@@ -449,7 +460,8 @@ def get_const_tick_imbalance_bars(
     output_path: Optional[str] = None,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Creates a DataFrame of Const tick imbalance bars with columns: date_time, open, high, low, close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
+    Creates a DataFrame of Const tick imbalance bars with columns: date_time, open, high, low,
+    close, volume, cum_buy_volume, cum_ticks, cum_dollar_value.
 
     Parameters
     ----------

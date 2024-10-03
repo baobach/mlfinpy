@@ -3,12 +3,15 @@ The module implementing various functions loading tick, dollar, stock data sets 
 """
 
 import os
+
 import pandas as pd
 
 
 def load_stock_prices() -> pd.DataFrame:
     """
-    Loads stock prices data sets consisting of EEM, EWG, TIP, EWJ, EFA, IEF, EWQ, EWU, XLB, XLE, XLF, LQD, XLK, XLU, EPP, FXI, VGK, VPL, SPY, TLT, BND, CSJ, DIA starting from 2008 till 2016.
+    Loads stock prices data sets consisting of EEM, EWG, TIP, EWJ, EFA, IEF, EWQ,
+    EWU, XLB, XLE, XLF, LQD, XLK, XLU, EPP, FXI, VGK, VPL, SPY, TLT, BND, CSJ, DIA
+    starting from 2008 till 2016.
 
     Returns
     -------
@@ -36,9 +39,7 @@ def load_tick_sample() -> pd.DataFrame:
     """
 
     project_path = os.path.dirname(__file__)
-    tick_df = pd.read_csv(
-        os.path.join(project_path, "data/tick_data.csv"), index_col=0, parse_dates=[0]
-    )
+    tick_df = pd.read_csv(os.path.join(project_path, "data/tick_data.csv"), index_col=0, parse_dates=[0])
     return tick_df
 
 

@@ -12,11 +12,12 @@ from numba import njit
 @njit(nogil=True)
 def ewma(arr_in: np.ndarray, window: int) -> np.ndarray:
     """
-    Exponentially weighted moving average specified by a decay `window` to provide better adjustments for small windows via:
+    Exponentially weighted moving average specified by a decay `window` to provide better adjustments
+    for small windows via:
 
     .. math::
-
-        y[t] = \\frac{x[t] + (1-a)x[t-1] + (1-a)^2x[t-2] + \\ldots + (1-a)^nx[t-n]}{1 + (1-a) + (1-a)^2 + \\ldots + (1-a)^n}
+        y[t] = \\frac{x[t] + (1-a)x[t-1] + (1-a)^2x[t-2] + \\ldots + (1-a)^nx[t-n]}{1 + (1-a) + (1-a)^2 +
+        \\ldots + (1-a)^n}
 
     Parameters
     ----------

@@ -2,14 +2,15 @@
 Test various volatility estimates
 """
 
-import unittest
 import os
+import unittest
+
 import pandas as pd
 
 from mlfinpy.util.volatility import (
+    get_garman_class_vol,
     get_parksinson_vol,
     get_yang_zhang_vol,
-    get_garman_class_vol,
 )
 
 
@@ -32,12 +33,8 @@ class TestVolatilityEstimators(unittest.TestCase):
         """
         Test volatility estimators.
         """
-        gm_vol = get_garman_class_vol(
-            self.data.open, self.data.high, self.data.low, self.data.close, window=20
-        )
-        yz_vol = get_yang_zhang_vol(
-            self.data.open, self.data.high, self.data.low, self.data.close, window=20
-        )
+        gm_vol = get_garman_class_vol(self.data.open, self.data.high, self.data.low, self.data.close, window=20)
+        yz_vol = get_yang_zhang_vol(self.data.open, self.data.high, self.data.low, self.data.close, window=20)
         park_vol = get_parksinson_vol(self.data.high, self.data.low, window=20)
 
         self.assertEqual(self.data.shape[0], gm_vol.shape[0])

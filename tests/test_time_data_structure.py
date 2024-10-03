@@ -2,8 +2,9 @@
 Tests for the `data_structure` module.
 """
 
-import unittest
 import os
+import unittest
+
 import numpy as np
 import pandas as pd
 
@@ -30,15 +31,9 @@ class TestTimeDataStructures(unittest.TestCase):
         Tests the seconds bars implementation.
         """
 
-        db1 = ds.get_time_bars(
-            self.path, resolution="D", num_units=1, batch_size=1000, verbose=False
-        )
-        db2 = ds.get_time_bars(
-            self.path, resolution="D", num_units=1, batch_size=50, verbose=False
-        )
-        db3 = ds.get_time_bars(
-            self.path, resolution="D", num_units=1, batch_size=10, verbose=False
-        )
+        db1 = ds.get_time_bars(self.path, resolution="D", num_units=1, batch_size=1000, verbose=False)
+        db2 = ds.get_time_bars(self.path, resolution="D", num_units=1, batch_size=50, verbose=False)
+        db3 = ds.get_time_bars(self.path, resolution="D", num_units=1, batch_size=10, verbose=False)
         ds.get_time_bars(
             self.path,
             resolution="D",
@@ -68,9 +63,7 @@ class TestTimeDataStructures(unittest.TestCase):
         self.assertTrue(db1.loc[0, "close"] == 1249.75)
 
         # Assert date_time is correct
-        self.assertTrue(
-            db1.loc[0, "date_time"] == pd.Timestamp(2011, 8, 1, 0, 0, 0).timestamp()
-        )
+        self.assertTrue(db1.loc[0, "date_time"] == pd.Timestamp(2011, 8, 1, 0, 0, 0).timestamp())
 
         # delete generated csv file (if it wasn't generated test would fail)
         os.remove("test.csv")
@@ -80,15 +73,9 @@ class TestTimeDataStructures(unittest.TestCase):
         Tests the seconds bars implementation.
         """
 
-        db1 = ds.get_time_bars(
-            self.path, resolution="H", num_units=1, batch_size=1000, verbose=False
-        )
-        db2 = ds.get_time_bars(
-            self.path, resolution="H", num_units=1, batch_size=50, verbose=False
-        )
-        db3 = ds.get_time_bars(
-            self.path, resolution="H", num_units=1, batch_size=10, verbose=False
-        )
+        db1 = ds.get_time_bars(self.path, resolution="H", num_units=1, batch_size=1000, verbose=False)
+        db2 = ds.get_time_bars(self.path, resolution="H", num_units=1, batch_size=50, verbose=False)
+        db3 = ds.get_time_bars(self.path, resolution="H", num_units=1, batch_size=10, verbose=False)
         ds.get_time_bars(
             self.path,
             resolution="H",
@@ -118,9 +105,7 @@ class TestTimeDataStructures(unittest.TestCase):
         self.assertTrue(db1.loc[1, "close"] == 1249.75)
 
         # Assert date_time is correct
-        self.assertTrue(
-            db1.loc[1, "date_time"] == pd.Timestamp(2011, 8, 1, 0, 0, 0).timestamp()
-        )
+        self.assertTrue(db1.loc[1, "date_time"] == pd.Timestamp(2011, 8, 1, 0, 0, 0).timestamp())
 
         # delete generated csv file (if it wasn't generated test would fail)
         os.remove("test.csv")
@@ -130,15 +115,9 @@ class TestTimeDataStructures(unittest.TestCase):
         Tests the minute bars implementation.
         """
 
-        db1 = ds.get_time_bars(
-            self.path, resolution="MIN", num_units=1, batch_size=1000, verbose=False
-        )
-        db2 = ds.get_time_bars(
-            self.path, resolution="MIN", num_units=1, batch_size=50, verbose=False
-        )
-        db3 = ds.get_time_bars(
-            self.path, resolution="MIN", num_units=1, batch_size=10, verbose=False
-        )
+        db1 = ds.get_time_bars(self.path, resolution="MIN", num_units=1, batch_size=1000, verbose=False)
+        db2 = ds.get_time_bars(self.path, resolution="MIN", num_units=1, batch_size=50, verbose=False)
+        db3 = ds.get_time_bars(self.path, resolution="MIN", num_units=1, batch_size=10, verbose=False)
         ds.get_time_bars(
             self.path,
             resolution="MIN",
@@ -168,9 +147,7 @@ class TestTimeDataStructures(unittest.TestCase):
         self.assertTrue(db1.loc[9, "close"] == 1277.0)
 
         # Assert date_time is correct
-        self.assertTrue(
-            db1.loc[9, "date_time"] == pd.Timestamp(2011, 8, 1, 23, 39, 0).timestamp()
-        )
+        self.assertTrue(db1.loc[9, "date_time"] == pd.Timestamp(2011, 8, 1, 23, 39, 0).timestamp())
 
         # delete generated csv file (if it wasn't generated test would fail)
         os.remove("test.csv")
@@ -180,15 +157,9 @@ class TestTimeDataStructures(unittest.TestCase):
         Tests the seconds bars implementation.
         """
 
-        db1 = ds.get_time_bars(
-            self.path, resolution="S", num_units=10, batch_size=1000, verbose=False
-        )
-        db2 = ds.get_time_bars(
-            self.path, resolution="S", num_units=10, batch_size=50, verbose=False
-        )
-        db3 = ds.get_time_bars(
-            self.path, resolution="S", num_units=10, batch_size=10, verbose=False
-        )
+        db1 = ds.get_time_bars(self.path, resolution="S", num_units=10, batch_size=1000, verbose=False)
+        db2 = ds.get_time_bars(self.path, resolution="S", num_units=10, batch_size=50, verbose=False)
+        db3 = ds.get_time_bars(self.path, resolution="S", num_units=10, batch_size=10, verbose=False)
         ds.get_time_bars(
             self.path,
             resolution="S",
@@ -218,9 +189,7 @@ class TestTimeDataStructures(unittest.TestCase):
         self.assertTrue(db1.loc[1, "close"] == 1202.0)
 
         # Assert date_time is correct
-        self.assertTrue(
-            db1.loc[1, "date_time"] == pd.Timestamp(2011, 7, 31, 22, 39, 0).timestamp()
-        )
+        self.assertTrue(db1.loc[1, "date_time"] == pd.Timestamp(2011, 7, 31, 22, 39, 0).timestamp())
 
         # delete generated csv file (if it wasn't generated test would fail)
         os.remove("test.csv")
@@ -230,9 +199,7 @@ class TestTimeDataStructures(unittest.TestCase):
         Tests ValueError raise when neither pd.DataFrame nor path to csv file are passed to function call
         """
         with self.assertRaises(ValueError):
-            ds.get_time_bars(
-                None, resolution="MIN", num_units=1, batch_size=1000, verbose=False
-            )
+            ds.get_time_bars(None, resolution="MIN", num_units=1, batch_size=1000, verbose=False)
 
     def test_csv_format(self):
         """
@@ -244,18 +211,10 @@ class TestTimeDataStructures(unittest.TestCase):
         too_many_cols = ["2019-01-30", 200.00, np.int64(5), "Limit order", "B23"]
 
         # pylint: disable=protected-access
-        self.assertRaises(
-            ValueError, ds.TimeBars._assert_csv, pd.DataFrame(wrong_date).T
-        )
+        self.assertRaises(ValueError, ds.TimeBars._assert_csv, pd.DataFrame(wrong_date).T)
         # pylint: disable=protected-access
-        self.assertRaises(
-            AssertionError, ds.TimeBars._assert_csv, pd.DataFrame(too_many_cols).T
-        )
+        self.assertRaises(AssertionError, ds.TimeBars._assert_csv, pd.DataFrame(too_many_cols).T)
         # pylint: disable=protected-access
-        self.assertRaises(
-            AssertionError, ds.TimeBars._assert_csv, pd.DataFrame(wrong_price).T
-        )
+        self.assertRaises(AssertionError, ds.TimeBars._assert_csv, pd.DataFrame(wrong_price).T)
         # pylint: disable=protected-access
-        self.assertRaises(
-            AssertionError, ds.TimeBars._assert_csv, pd.DataFrame(wrong_volume).T
-        )
+        self.assertRaises(AssertionError, ds.TimeBars._assert_csv, pd.DataFrame(wrong_volume).T)

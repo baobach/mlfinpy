@@ -108,9 +108,7 @@ def frac_diff(series: pd.Series, diff_amt: float, thresh: float = 0.01) -> pd.Da
 
             # At this point all entries are non-NAs so no need for the following check
             # if np.isfinite(series.loc[loc, name]):
-            output_df_[loc] = np.dot(weights[-(iloc + 1) :, :].T, series_f.loc[:loc])[
-                0, 0
-            ]
+            output_df_[loc] = np.dot(weights[-(iloc + 1) :, :].T, series_f.loc[:loc])[0, 0]
 
         output_df[name] = output_df_.copy(deep=True)
     output_df = pd.concat(output_df, axis=1)
@@ -174,9 +172,7 @@ def get_weights_ffd(diff_amt: float, thresh: float, lim: int) -> np.ndarray:
     return weights
 
 
-def frac_diff_ffd(
-    series: pd.Series, diff_amt: float, thresh: float = 1e-5
-) -> pd.DataFrame:
+def frac_diff_ffd(series: pd.Series, diff_amt: float, thresh: float = 1e-5) -> pd.DataFrame:
     """
     The steps are as follows:
 

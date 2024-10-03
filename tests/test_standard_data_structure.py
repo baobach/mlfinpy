@@ -2,8 +2,9 @@
 Tests for the `data_structure` module.
 """
 
-import unittest
 import os
+import unittest
+
 import numpy as np
 import pandas as pd
 
@@ -31,15 +32,9 @@ class TestDataStructures(unittest.TestCase):
         """
         threshold = 100000
 
-        db1 = ds.get_dollar_bars(
-            self.path, threshold=threshold, batch_size=1000, verbose=False
-        )
-        db2 = ds.get_dollar_bars(
-            self.path, threshold=threshold, batch_size=50, verbose=False
-        )
-        db3 = ds.get_dollar_bars(
-            self.path, threshold=threshold, batch_size=10, verbose=False
-        )
+        db1 = ds.get_dollar_bars(self.path, threshold=threshold, batch_size=1000, verbose=False)
+        db2 = ds.get_dollar_bars(self.path, threshold=threshold, batch_size=50, verbose=False)
+        db3 = ds.get_dollar_bars(self.path, threshold=threshold, batch_size=10, verbose=False)
         ds.get_dollar_bars(
             self.path,
             threshold=threshold,
@@ -74,15 +69,9 @@ class TestDataStructures(unittest.TestCase):
         Tests the volume bars implementation.
         """
         threshold = 30
-        db1 = ds.get_volume_bars(
-            self.path, threshold=threshold, batch_size=1000, verbose=False
-        )
-        db2 = ds.get_volume_bars(
-            self.path, threshold=threshold, batch_size=50, verbose=False
-        )
-        db3 = ds.get_volume_bars(
-            self.path, threshold=threshold, batch_size=10, verbose=False
-        )
+        db1 = ds.get_volume_bars(self.path, threshold=threshold, batch_size=1000, verbose=False)
+        db2 = ds.get_volume_bars(self.path, threshold=threshold, batch_size=50, verbose=False)
+        db3 = ds.get_volume_bars(self.path, threshold=threshold, batch_size=10, verbose=False)
         ds.get_volume_bars(
             self.path,
             threshold=threshold,
@@ -118,15 +107,9 @@ class TestDataStructures(unittest.TestCase):
         """
         threshold = 10
 
-        db1 = ds.get_tick_bars(
-            self.path, threshold=threshold, batch_size=1000, verbose=False
-        )
-        db2 = ds.get_tick_bars(
-            self.path, threshold=threshold, batch_size=50, verbose=False
-        )
-        db3 = ds.get_tick_bars(
-            self.path, threshold=threshold, batch_size=10, verbose=False
-        )
+        db1 = ds.get_tick_bars(self.path, threshold=threshold, batch_size=1000, verbose=False)
+        db2 = ds.get_tick_bars(self.path, threshold=threshold, batch_size=50, verbose=False)
+        db3 = ds.get_tick_bars(self.path, threshold=threshold, batch_size=10, verbose=False)
         ds.get_tick_bars(
             self.path,
             threshold=threshold,
@@ -177,15 +160,9 @@ class TestDataStructures(unittest.TestCase):
 
         file_paths = [tick1, tick2]
 
-        db1 = ds.get_dollar_bars(
-            file_paths, threshold=threshold, batch_size=1000, verbose=False
-        )
-        db2 = ds.get_dollar_bars(
-            file_paths, threshold=threshold, batch_size=50, verbose=False
-        )
-        db3 = ds.get_dollar_bars(
-            file_paths, threshold=threshold, batch_size=10, verbose=False
-        )
+        db1 = ds.get_dollar_bars(file_paths, threshold=threshold, batch_size=1000, verbose=False)
+        db2 = ds.get_dollar_bars(file_paths, threshold=threshold, batch_size=50, verbose=False)
+        db3 = ds.get_dollar_bars(file_paths, threshold=threshold, batch_size=10, verbose=False)
         ds.get_dollar_bars(
             self.path,
             threshold=threshold,
@@ -224,9 +201,7 @@ class TestDataStructures(unittest.TestCase):
         tick_data = pd.read_csv(self.path)
         tick_data["Date and Time"] = pd.to_datetime(tick_data["Date and Time"])
 
-        db1 = ds.get_dollar_bars(
-            self.path, threshold=threshold, batch_size=1000, verbose=False
-        )
+        db1 = ds.get_dollar_bars(self.path, threshold=threshold, batch_size=1000, verbose=False)
         ds.get_dollar_bars(
             self.path,
             threshold=threshold,
@@ -237,9 +212,7 @@ class TestDataStructures(unittest.TestCase):
         )
         db2 = pd.read_csv("test.csv")
         db2["date_time"] = pd.to_datetime(db2.date_time)
-        db3 = ds.get_dollar_bars(
-            tick_data, threshold=threshold, batch_size=10, verbose=False
-        )
+        db3 = ds.get_dollar_bars(tick_data, threshold=threshold, batch_size=10, verbose=False)
 
         # Assert diff batch sizes have same number of bars
         self.assertTrue(db1.shape == db2.shape)
@@ -257,9 +230,7 @@ class TestDataStructures(unittest.TestCase):
         tick_data = pd.read_csv(self.path)
         tick_data["Date and Time"] = pd.to_datetime(tick_data["Date and Time"])
 
-        db1 = ds.get_dollar_bars(
-            self.path, threshold=threshold, batch_size=1000, verbose=False
-        )
+        db1 = ds.get_dollar_bars(self.path, threshold=threshold, batch_size=1000, verbose=False)
         ds.get_dollar_bars(
             self.path,
             threshold=threshold,
@@ -322,18 +293,10 @@ class TestDataStructures(unittest.TestCase):
         too_many_cols = ["2019-01-30", 200.00, np.int64(5), "Limit order", "B23"]
 
         # pylint: disable=protected-access
-        self.assertRaises(
-            ValueError, ds.StandardBars._assert_csv, pd.DataFrame(wrong_date).T
-        )
+        self.assertRaises(ValueError, ds.StandardBars._assert_csv, pd.DataFrame(wrong_date).T)
         # pylint: disable=protected-access
-        self.assertRaises(
-            AssertionError, ds.StandardBars._assert_csv, pd.DataFrame(too_many_cols).T
-        )
+        self.assertRaises(AssertionError, ds.StandardBars._assert_csv, pd.DataFrame(too_many_cols).T)
         # pylint: disable=protected-access
-        self.assertRaises(
-            AssertionError, ds.StandardBars._assert_csv, pd.DataFrame(wrong_price).T
-        )
+        self.assertRaises(AssertionError, ds.StandardBars._assert_csv, pd.DataFrame(wrong_price).T)
         # pylint: disable=protected-access
-        self.assertRaises(
-            AssertionError, ds.StandardBars._assert_csv, pd.DataFrame(wrong_volume).T
-        )
+        self.assertRaises(AssertionError, ds.StandardBars._assert_csv, pd.DataFrame(wrong_volume).T)

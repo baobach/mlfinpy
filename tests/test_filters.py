@@ -2,8 +2,9 @@
 Tests for the `filters` module.
 """
 
-import unittest
 import os
+import unittest
+
 import numpy as np
 import pandas as pd
 
@@ -34,9 +35,7 @@ class TestCUSUMFilter(unittest.TestCase):
         for threshold in [0.005, 0.007, 0.01, 0.015, 0.02, 0.03, 0.04]:
             for timestamp in [True, False]:
 
-                cusum_events = cusum_filter(
-                    self.data["close"], threshold=threshold, time_stamps=timestamp
-                )
+                cusum_events = cusum_filter(self.data["close"], threshold=threshold, time_stamps=timestamp)
 
                 for i in range(1, len(cusum_events)):
                     event_1 = self.data.index.get_loc(cusum_events[i - 1])
@@ -59,26 +58,18 @@ class TestCUSUMFilter(unittest.TestCase):
         Test CUSUM filter with dynamic threshold, assert lenght of filtered series
         """
         dynamic_threshold = self.data["close"] * 1e-5
-        cusum_events = cusum_filter(
-            self.data["close"], threshold=dynamic_threshold, time_stamps=True
-        )
+        cusum_events = cusum_filter(self.data["close"], threshold=dynamic_threshold, time_stamps=True)
         self.assertTrue(cusum_events.shape[0] == 9)
 
     def test_z_score_filter(self):
         """
         Test Z-score filter
         """
-        z_score_events = z_score_filter(
-            self.data["close"], 100, 100, 2, time_stamps=True
-        )
-        z_score_events_timestamp_false = z_score_filter(
-            self.data["close"], 100, 100, 2, time_stamps=False
-        )
+        z_score_events = z_score_filter(self.data["close"], 100, 100, 2, time_stamps=True)
+        z_score_events_timestamp_false = z_score_filter(self.data["close"], 100, 100, 2, time_stamps=False)
 
         self.assertTrue(z_score_events.shape[0] == 68)
-        self.assertTrue(
-            z_score_events.shape[0] == z_score_events_timestamp_false.shape[0]
-        )
+        self.assertTrue(z_score_events.shape[0] == z_score_events_timestamp_false.shape[0])
         self.assertEqual(self.data.loc[z_score_events[0], "close"], 2037.25)
         self.assertEqual(self.data.loc[z_score_events[25], "close"], 2009.5)
 

@@ -3,9 +3,10 @@ This module generates  synthetic classification dataset of INFORMED, REDUNDANT, 
 variables based on the book Machine Learning for Asset Manager (code snippet 6.1)
 """
 
+from typing import Tuple
+
 import numpy as np
 import pandas as pd
-from typing import Tuple
 from sklearn.datasets import make_classification
 
 
@@ -21,7 +22,8 @@ def get_classification_data(
     """
     A function to generate synthetic classification datasets.
 
-    This function is based on the book Machine Learning for Asset Manager (code snippet 6.1) to generate synthetic data. The output data is the feature matrix `X` and the label `y`.
+    This function is based on the book Machine Learning for Asset Manager (code snippet 6.1)
+    to generate synthetic data. The output data is the feature matrix `X` and the label `y`.
 
     Parameters
     ----------

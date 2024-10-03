@@ -2,15 +2,14 @@
 Logic regarding sequential bootstrapping from chapter 4.
 """
 
-import pandas as pd
+from typing import List, Optional
+
 import numpy as np
+import pandas as pd
 from numba import njit, prange
-from typing import List, Union, Optional
 
 
-def get_ind_matrix(
-    samples_info_sets: pd.Series, price_bars: pd.DataFrame
-) -> np.ndarray:
+def get_ind_matrix(samples_info_sets: pd.Series, price_bars: pd.DataFrame) -> np.ndarray:
     """
     Build an Indicator Matrix
 
@@ -34,28 +33,18 @@ def get_ind_matrix(
     ---
     Reference: Advances in Financial Machine Learning, Snippet 4.3, page 65.
     """
-    if (
-        bool(samples_info_sets.isnull().values.any()) is True
-        or bool(samples_info_sets.index.isnull().any()) is True
-    ):
-        raise ValueError(
-            "NaN values in `triple_barrier_events`. Drop NaN values to continue."
-        )
+    if bool(samples_info_sets.isnull().values.any()) is True or bool(samples_info_sets.index.isnull().any()) is True:
+        raise ValueError("NaN values in `triple_barrier_events`. Drop NaN values to continue.")
 
-    triple_barrier_events = pd.DataFrame(
-        samples_info_sets
-    )  # Convert Series to DataFrame
+    triple_barrier_events = pd.DataFrame(samples_info_sets)  # Convert Series to DataFrame
 
     # Take only period covered in triple_barrier_events
     trimmed_price_bars_index = price_bars[
-        (price_bars.index >= triple_barrier_events.index.min())
-        & (price_bars.index <= triple_barrier_events.t1.max())
+        (price_bars.index >= triple_barrier_events.index.min()) & (price_bars.index <= triple_barrier_events.t1.max())
     ].index
 
     label_endtime = triple_barrier_events.t1
-    bar_index = list(
-        triple_barrier_events.index
-    )  # Generate index for indicator matrix from t1 and index
+    bar_index = list(triple_barrier_events.index)  # Generate index for indicator matrix from t1 and index
     bar_index.extend(triple_barrier_events.t1)
     bar_index.extend(trimmed_price_bars_index)  # Add price bars index
     bar_index = sorted(list(set(bar_index)))  # Drop duplicates and sort
@@ -70,9 +59,7 @@ def get_ind_matrix(
         )
     )  # Create array of arrays: [label_index_position, label_endtime_position]
 
-    ind_mat = np.zeros(
-        (len(bar_index), len(label_endtime)), dtype=np.int64
-    )  # Init indicator matrix
+    ind_mat = np.zeros((len(bar_index), len(label_endtime)), dtype=np.int64)  # Init indicator matrix
     for sample_num, label_array in enumerate(tokenized_endtimes):
         label_index = label_array[0]
         label_endtime = label_array[1]
@@ -103,9 +90,7 @@ def get_ind_mat_average_uniqueness(ind_mat: np.ndarray) -> float:
     """
     ind_mat = np.array(ind_mat, dtype=np.float64)
     concurrency = ind_mat.sum(axis=1)
-    uniqueness = np.divide(
-        ind_mat.T, concurrency, out=np.zeros_like(ind_mat.T), where=concurrency != 0
-    )
+    uniqueness = np.divide(ind_mat.T, concurrency, out=np.zeros_like(ind_mat.T), where=concurrency != 0)
 
     avg_uniqueness = uniqueness[uniqueness > 0].mean()
 
@@ -130,16 +115,12 @@ def get_ind_mat_label_uniqueness(ind_mat: np.ndarray) -> np.ndarray:
     """
     ind_mat = np.array(ind_mat, dtype=np.float64)
     concurrency = ind_mat.sum(axis=1)
-    uniqueness = np.divide(
-        ind_mat.T, concurrency, out=np.zeros_like(ind_mat.T), where=concurrency != 0
-    )
+    uniqueness = np.divide(ind_mat.T, concurrency, out=np.zeros_like(ind_mat.T), where=concurrency != 0)
     return uniqueness
 
 
 @njit(parallel=True)
-def _bootstrap_loop_run(
-    ind_mat: np.ndarray, prev_concurrency: np.ndarray
-) -> np.ndarray:
+def _bootstrap_loop_run(ind_mat: np.ndarray, prev_concurrency: np.ndarray) -> np.ndarray:
     """
     Part of Sequential Bootstrapping for-loop. Using previously accumulated concurrency array, loops through all samples
     and generates averages uniqueness array of label based on previously accumulated concurrency
@@ -156,9 +137,7 @@ def _bootstrap_loop_run(
     avg_unique : np.ndarray
         Label average uniqueness based on prev_concurrency.
     """
-    avg_unique = np.zeros(
-        ind_mat.shape[1], dtype=np.float64
-    )  # Array of label uniqueness
+    avg_unique = np.zeros(ind_mat.shape[1], dtype=np.float64)  # Array of label uniqueness
 
     for i in prange(ind_mat.shape[1]):  # pylint: disable=not-an-iterable
         prev_average_uniqueness = 0
@@ -167,9 +146,7 @@ def _bootstrap_loop_run(
         for j in range(len(reduced_mat)):  # pylint: disable=consider-using-enumerate
             if reduced_mat[j] > 0:
                 new_el = reduced_mat[j] / (reduced_mat[j] + prev_concurrency[j])
-                average_uniqueness = (
-                    prev_average_uniqueness * number_of_elements + new_el
-                ) / (number_of_elements + 1)
+                average_uniqueness = (prev_average_uniqueness * number_of_elements + new_el) / (number_of_elements + 1)
                 number_of_elements += 1
                 prev_average_uniqueness = average_uniqueness
         avg_unique[i] = average_uniqueness
@@ -222,16 +199,12 @@ def seq_bootstrap(
         warmup_samples = []
 
     phi = []  # Bootstrapped samples
-    prev_concurrency = np.zeros(
-        ind_mat.shape[0], dtype=np.float64
-    )  # Init with zeros (phi is empty)
+    prev_concurrency = np.zeros(ind_mat.shape[0], dtype=np.float64)  # Init with zeros (phi is empty)
     while len(phi) < sample_length:
         avg_unique = _bootstrap_loop_run(ind_mat, prev_concurrency)
         prob = avg_unique / sum(avg_unique)  # Draw prob
         try:
-            choice = warmup_samples.pop(
-                0
-            )  # It would get samples from warmup until it is empty
+            choice = warmup_samples.pop(0)  # It would get samples from warmup until it is empty
             # If it is empty from the beginning it would get samples based on prob from the first iteration
         except IndexError:
             choice = random_state.choice(range(ind_mat.shape[1]), p=prob)
@@ -244,10 +217,6 @@ def seq_bootstrap(
         standard_indx = np.random.choice(ind_mat.shape[1], size=sample_length)
         standard_unq = get_ind_mat_average_uniqueness(ind_mat[:, standard_indx])
         sequential_unq = get_ind_mat_average_uniqueness(ind_mat[:, phi])
-        print(
-            "Standard uniqueness: {}\nSequential uniqueness: {}".format(
-                standard_unq, sequential_unq
-            )
-        )
+        print("Standard uniqueness: {}\nSequential uniqueness: {}".format(standard_unq, sequential_unq))
 
     return phi

@@ -58,7 +58,7 @@ Contents
 .. toctree::
    :maxdepth: 1
    :caption: Other information
-   
+
    FAQ
    Roadmap
    Contributing
