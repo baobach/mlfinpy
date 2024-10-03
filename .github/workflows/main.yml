@@ -30,12 +30,11 @@ jobs:
 
       - name: Use Codecov to track coverage
         uses: codecov/codecov-action@v4
-        with:
-          file: ./path/to/coverage.xml
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Build documentation
         run:
-          pip install furo
           poetry run make html --directory docs/
 
   build:
