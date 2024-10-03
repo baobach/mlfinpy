@@ -46,6 +46,8 @@ flake8 = "^4.0.1"
 black = "^24.8.0"
 isort = "^5.13.2"
 pre-commit = "^3.8.0"
+sphinx = "^8.0.2"
+furo = "^2024.8.6"
 
 [tool.poetry.extras]
 optionals = ["scikit-learn"]
