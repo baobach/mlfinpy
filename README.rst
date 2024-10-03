@@ -1,5 +1,5 @@
 =======
-Mlfinpy is an Advance Machine Learning toolbox for financial applications.
+mlfinpy
 =======
 
 
@@ -36,6 +36,7 @@ Mlfinpy is an Advance Machine Learning toolbox for financial applications.
 * Free software: MIT license
 * Documentation: https://mlfinpy.readthedocs.io.
 
+MLfin.py is an Advance Machine Learning toolbox for financial applications.
 
 Features
 --------
