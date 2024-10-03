@@ -1,8 +1,56 @@
-name: Publish Python 🐍 distribution 📦 to PyPI and TestPyPI
+name: ci-cd
 
-on: push
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
+  ci:
+    # Set up operating system
+    runs-on: ubuntu-latest
+
+    # Define job steps
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check-out repository
+        uses: actions/checkout@v4
+
+      - name: Install poetry
+        uses: snok/install-poetry@v1
+
+      - name: Install package
+        run: poetry install
+
+      - name: Test with pytest
+        run: poetry run pytest tests/ --cov=quantfinpy --cov-report=xml
+
+      - name: Use Codecov to track coverage
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Check with isort
+        run: |
+            isort --check --diff .
+
+      - name: Check with black
+        run: |
+            black --check --diff .
+
+      - name: Check with flake8
+        run: |
+            flake8 --show-source --statistics .
+            - name: Test with pytest
+  
+      - name: Build documentation
+        run: poetry run make html --directory docs/
+
   build:
     name: Build distribution 📦
     runs-on: ubuntu-latest

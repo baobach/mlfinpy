@@ -44,6 +44,7 @@ pytest = ">=7.1"
 pytest-cov = ">=4.0"
 flake8 = "^4.0.1"
 black = "^24.8.0"
+isort = "^5.13.2"
 
 [tool.poetry.extras]
 optionals = ["scikit-learn"]
