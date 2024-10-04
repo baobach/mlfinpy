@@ -49,7 +49,7 @@ Installation can then be done via pip:
 
 .. code-block:: console
 
-   $ pip install mlfinpy
+   pip install mlfinpy
 
 For the sake of best practice, it is good to do this with a dependency manager. I suggest you
 set yourself up with `poetry <https://github.com/sdispater/poetry>`_, then within a new poetry project
@@ -57,7 +57,7 @@ run:
 
 .. code-block:: console
 
-   $ poetry add mlfinpy
+   poetry add mlfinpy
 
 .. note::
     If any of these methods don't work, please `raise an issue
@@ -80,6 +80,12 @@ you should try:
 .. code-block:: console
 
     pip install -e git+https://github.com/baobach/mlfinpy.git
+
+|
+
+------------------------------------
+
+|
 
 Work with HFT Data
 ==================
@@ -113,6 +119,12 @@ the `research repo`_. You should be able to work on a few implementations of the
     .. _Dukascopy: https://www.dukascopy.com/swiss/english/marketwatch/historical/
     .. _Binance API: https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md
     .. _Blog Post: https://towardsdatascience.com/how-and-why-i-got-75gb-of-free-foreign-exchange-tick-data-9ca78f5fa26c
+
+|
+
+------------------------------------
+
+|
 
 Datasets
 ========
@@ -174,6 +186,12 @@ Example
    # Load sample stock prices data
    stock_prices_df = load_stock_prices()
 
+|
+
+------------------------------------
+
+|
+
 Contents
 ========
 
@@ -195,6 +213,12 @@ Contents
    Contributing
    About
 
+|
+
+------------------------------------
+
+|
+
 Project principles and design decisions
 =======================================
 
@@ -213,9 +237,16 @@ Project principles and design decisions
   <https://github.com/PyCQA/flake8>`_, and `Isort
   <https://github.com/PyCQA/isort>`_.
 
+|
+
+------------------------------------
+
+|
+
 Indices and tables
 ==================
 
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
