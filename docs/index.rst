@@ -46,6 +46,7 @@ techniques with ease.
 Installation
 ============
 Installation can then be done via pip:
+
 .. code-block:: console
 
    $ pip install mlfinpy
