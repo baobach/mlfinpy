@@ -17,7 +17,7 @@ run:
 
 .. note::
     If any of these methods don't work, please `raise an issue
-    <https://github.com/baobach/mlfinpy/issues>`_ with the 'packaging' label on GitHub
+    <https://github.com/baobach/mlfinpy/issues>`_ with the ``packaging`` label on GitHub.
 
 
 
@@ -26,14 +26,14 @@ For developers
 
 If you are planning on using Mlfinpy as a starting template for significant
 modifications, it probably makes sense to clone the repository and to just use the
-source code
+source code:
 
 .. code-block:: text
 
     git clone https://github.com/baobach/mlfinpy
 
 Alternatively, if you still want the convenience of a global ``from mlfinpy import x``,
-you should try
+you should try:
 
 .. code-block:: text
 
@@ -67,17 +67,20 @@ Contents
 Project principles and design decisions
 =======================================
 
-- It should be easy to swap out individual components of the optimization process
+- It should be easy to swap out individual components of each module
   with the user's proprietary improvements.
 - Usability is everything: it is better to be self-explanatory than consistent.
-- There is no point in portfolio optimization unless it can be practically
-  applied to real asset prices.
-- Everything that has been implemented should be tested.
+- The goal is creating a framework to build a robust and functional library for
+  machine learning applications.
+- Everything that has been implemented should be tested and formatted with lattest
+  requirements.
 - Inline documentation is good: dedicated (separate) documentation is better.
   The two are not mutually exclusive.
 - Formatting should never get in the way of good code: because of this,
   I have deferred **all** formatting decisions to `Black
-  <https://github.com/ambv/black>`_.
+  <https://github.com/ambv/black>`_, `Flake8
+  <https://github.com/PyCQA/flake8>`_, and `Isort
+  <https://github.com/PyCQA/isort>`_.
 
 Indices and tables
 ==================
