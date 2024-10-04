@@ -114,65 +114,6 @@ Searching for free tick data can be a challenging task. The following three sour
 .. _Binance API: https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md
 .. _Blog Post: https://towardsdatascience.com/how-and-why-i-got-75gb-of-free-foreign-exchange-tick-data-9ca78f5fa26c
 
-Datasets
-========
-
-To make the developing module and testing the code process more convenient, **MLfin.py** package contains various financial 
-datasets which can be used by a developer as sandbox data.
-
-Tick Data Sample
-----------------
-
-**MLfin.py** provides a sample of tick data for E-Mini S&P 500 futures which can be used to test bar compression algorithms,
-microstructural features, etc. Tick data sample consists of ``Timestamp``, ``Price`` and ``Volume``. The data contain 
-500,000 rows of cleaned tick data.
-
-.. py:currentmodule:: mlfinpy.dataset.load_datasets
-.. autofunction:: load_tick_sample
-
-Dollar-Bar Data Sample
-----------------------
-We also provide a sample of dollar bars for E-Mini S&P 500 futures. Data set structure:
-
-    - Open price (open)
-    - High price (high)
-    - Low price (low)
-    - Close price (close)
-    - Volume (cum_volume)
-    - Dollar volume traded (cum_dollar)
-    - Number of ticks inside of bar (cum_ticks)
-
-.. tip::
-   You can find more information on dollar bars and other bar compression algorithms in `Financial Data Structure`_ module.
-.. _Financial Data Structure: https://mlfinpy.readthedocs.io/en/latest/FinancialDataStructure.html
-
-.. py:currentmodule:: mlfinpy.dataset.load_datasets
-.. autofunction:: load_dollar_bar_sample
-
-ETF Prices Sample
------------------
-
-.. py:currentmodule:: mlfinpy.dataset.load_datasets
-.. autofunction:: load_stock_prices
-
-The data set consists of close prices for: EEM, EWG, TIP, EWJ, EFA, IEF, EWQ, EWU, XLB, XLE, XLF, LQD, XLK, XLU, EPP,
-FXI, VGK, VPL, SPY, TLT, BND, CSJ, DIA starting from 2008 till 2016. It can be used to test and validate portfolio
-optimization techniques.
-
-Example
--------
-
-.. code-block::
-
-   from mlfinlab.datasets import (load_tick_sample, load_stock_prices, load_dollar_bar_sample)
-   
-   # Load sample tick data from the `Dataset` module
-   tick_df = load_tick_sample()
-   # Load sample dollar bar data from the `Dataset` module           
-   dollar_bars_df = load_dollar_bar_sample()
-   # Load sample stock price data from the `Dataset` module
-   stock_prices_df = load_stock_prices()
-
 Project principles and design decisions
 =======================================
 
