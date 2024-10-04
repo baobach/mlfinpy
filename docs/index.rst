@@ -45,24 +45,22 @@ techniques with ease.
 
 Installation
 ============
-Installation can then be done via pip::
+Installation can then be done via pip:
+.. code-block:: console
 
-    pip install mlfinpy
-
+   $ pip install mlfinpy
 
 For the sake of best practice, it is good to do this with a dependency manager. I suggest you
 set yourself up with `poetry <https://github.com/sdispater/poetry>`_, then within a new poetry project
 run:
 
-.. code-block:: text
+.. code-block:: console
 
-    poetry add mlfinpy
+   $ poetry add mlfinpy
 
 .. note::
     If any of these methods don't work, please `raise an issue
     <https://github.com/baobach/mlfinpy/issues>`_ with the ``packaging`` label on GitHub.
-
-
 
 For developers
 --------------
@@ -71,14 +69,14 @@ If you are planning on using Mlfinpy as a starting template for significant
 modifications, it probably makes sense to clone the repository and to just use the
 source code:
 
-.. code-block:: text
+.. code-block:: console
 
     git clone https://github.com/baobach/mlfinpy
 
 Alternatively, if you still want the convenience of a global ``from mlfinpy import x``,
 you should try:
 
-.. code-block:: text
+.. code-block:: console
 
     pip install -e git+https://github.com/baobach/mlfinpy.git
 
@@ -155,19 +153,24 @@ ETF Prices Sample
 .. py:currentmodule:: mlfinpy.dataset.load_datasets
 .. autofunction:: load_stock_prices
 
-The data set consists of close prices for: EEM, EWG, TIP, EWJ, EFA, IEF, EWQ, EWU, XLB, XLE, XLF, LQD, XLK, XLU, EPP,
-FXI, VGK, VPL, SPY, TLT, BND, CSJ, DIA starting from 2008 till 2016. It can be used to test and validate portfolio
-optimization techniques.
+The data set consists of close prices for: 
+   * EEM, EWG, TIP, EWJ, EFA, IEF, EWQ, EWU, XLB, XLE, XLF, LQD, XLK, XLU, EPP,FXI, VGK, VPL, SPY, 
+     TLT, BND, CSJ, DIA 
+   * Starting from 2008 till 2016. 
+It can be used to test and validate portfolio optimization techniques.
 
 Example
 -------
 
-.. code-block::
+.. code-block:: python
 
    from mlfinlab.datasets import (load_tick_sample, load_stock_prices, load_dollar_bar_sample)
 
+   # Load sample tick data
    tick_df = load_tick_sample()
+   # Load sample dollar bar data
    dollar_bars_df = load_dollar_bar_sample()
+   # Load sample stock prices data
    stock_prices_df = load_stock_prices()
 
 Contents
