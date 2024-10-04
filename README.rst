@@ -1,5 +1,5 @@
 ===========================================================
-Mlfin.py an Advance Machine Learning application in Finance
+Mlfin.py - Advance Machine Learning application in Finance
 ===========================================================
 
 .. image:: https://img.shields.io/pypi/v/mlfinpy.svg
