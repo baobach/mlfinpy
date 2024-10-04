@@ -1,7 +1,6 @@
-=======
-mlfinpy
-=======
-
+===========================================================
+Mlfin.py an Advance Machine Learning application in Finance
+===========================================================
 
 .. image:: https://img.shields.io/pypi/v/mlfinpy.svg
         :target: https://pypi.python.org/pypi/mlfinpy
@@ -31,7 +30,6 @@ mlfinpy
 .. image:: https://readthedocs.org/projects/mlfinpy/badge/?version=latest
         :target: https://mlfinpy.readthedocs.io/en/latest/?version=latest
         :alt: Documentation Status
-
 
 * Free software: MIT license
 * Documentation: https://mlfinpy.readthedocs.io.
