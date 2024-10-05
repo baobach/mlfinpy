@@ -200,7 +200,7 @@ Contents
 
    UserGuide
    FinancialDataStructure
-   FeaturesEngineering
+   FractionalDifferentiated
    Labelling
    Sampling
 
