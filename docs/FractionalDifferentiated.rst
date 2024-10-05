@@ -1,8 +1,8 @@
 .. _frac_diff:
 
-####################################
-Fractionally Differentiated Features
-####################################
+###########################
+Fractionally Differentiated
+###########################
 
 One of the challenges of quantitative analysis in finance is that time series of prices have trends or a non-constant mean.
 This makes the time series is non-stationary. A non-stationary time series are hard to work with when we want to do inferential
