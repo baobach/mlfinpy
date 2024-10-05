@@ -2,18 +2,6 @@
 Machine Learning application in Finance Python package
 ######################################################
 
-**MLfin.py** is an Advance Machine Learning toolbox for financial applications. The main ideas is using
-proprietary works and code snippent by Dr. Marcos López de Prado to build a morden Pythonic package
-that implements newest tech stacks from various libraries such as Numpy, Pandas, Numba, and Scikit-Learn.
-This work inspired by the library `MlFinLab <https://github.com/hudson-and-thames/mlfinlab>`_ by 
-**Hudson and Thames**. Unfortunately, the library is closed-source and I believe in the power of open
-source projects, it motivates me to build this package from ground up.
-
-Leverage best practice in packaging Python library, morden documentation style and comprehensive examples,
-**MLfin.py** will be the great tool for Quant Researchers, Algorithmic Traders, and Data Scientists as well as
-Finance students to reproduce the complex data transformation, labeling, sampling and feature engineering
-techniques with ease.
-
 .. image:: https://img.shields.io/pypi/v/mlfinpy.svg
         :target: https://pypi.python.org/pypi/mlfinpy
         :alt: PyPI Version
@@ -42,6 +30,18 @@ techniques with ease.
 .. image:: https://readthedocs.org/projects/mlfinpy/badge/?version=latest
         :target: https://mlfinpy.readthedocs.io/en/latest/?version=latest
         :alt: Documentation Status
+
+**MLfin.py** is an Advance Machine Learning toolbox for financial applications. The main ideas is using
+proprietary works and code snippent by Dr. Marcos López de Prado to build a morden Pythonic package
+that implements newest tech stacks from various libraries such as Numpy, Pandas, Numba, and Scikit-Learn.
+This work inspired by the library `MlFinLab <https://github.com/hudson-and-thames/mlfinlab>`_ by
+**Hudson and Thames**. Unfortunately, the library is closed-source and I believe in the power of open
+source projects, it motivates me to build this package from ground up.
+
+Leverage best practice in packaging Python library, morden documentation style and comprehensive examples,
+**MLfin.py** will be the great tool for Quant Researchers, Algorithmic Traders, and Data Scientists as well as
+Finance students to reproduce the complex data transformation, labeling, sampling and feature engineering
+techniques with ease.
 
 Installation
 ============
@@ -89,7 +89,7 @@ you should try:
 
 Work with HFT Data
 ==================
-In reality, testing code snippets through the first 3 chapters of the book is challenging as it relies on HFT data to 
+In reality, testing code snippets through the first 3 chapters of the book is challenging as it relies on HFT data to
 create the new financial data structures. Sourcing the HFT data is very difficult and thus `TickData LLC`_ provides
 the full history of S&P500 Emini futures tick data and available for purchase.
 
@@ -103,19 +103,19 @@ Download Sources
 ----------------
 
 TickData does offer about 20 days worth of raw tick data which can be sourced from their website `link`_.
-For those of you interested in working with a two years of sample tick, volume, and dollar bars, it is provided for in 
-the `research repo`_. You should be able to work on a few implementations of the code with this set. 
+For those of you interested in working with a two years of sample tick, volume, and dollar bars, it is provided for in
+the `research repo`_. You should be able to work on a few implementations of the code with this set.
 
 .. _link: https://s3-us-west-2.amazonaws.com/tick-data-s3/downloads/ES_Sample.zip
 .. _research repo: https://github.com/hudson-and-thames/research/tree/master/Sample-Data
 
 .. note::
     Searching for free tick data can be a challenging task. The following three sources may help:
-        
+
     1. `Dukascopy`_. Offers free historical tick data for some futures, though you do have to register.
     2. Most crypto exchanges offer tick data but not historical (see `Binance API`_). So you'd have to run a script for a few days.
     3. `Blog Post`_: How and why I got 75Gb of free foreign exchange “Tick” data.
-        
+
     .. _Dukascopy: https://www.dukascopy.com/swiss/english/marketwatch/historical/
     .. _Binance API: https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md
     .. _Blog Post: https://towardsdatascience.com/how-and-why-i-got-75gb-of-free-foreign-exchange-tick-data-9ca78f5fa26c
@@ -129,14 +129,14 @@ the `research repo`_. You should be able to work on a few implementations of the
 Datasets
 ========
 
-To make the developing module and testing the code process more convenient, **MLfin.py** package contains various financial 
+To make the developing module and testing the code process more convenient, **MLfin.py** package contains various financial
 datasets which can be used by a developer as sandbox data.
 
 Tick Data Sample
 ----------------
 
 **MLfin.py** provides a sample of tick data for E-Mini S&P 500 futures which can be used to test bar compression algorithms,
-microstructural features, etc. Tick data sample consists of ``Timestamp``, ``Price`` and ``Volume``. The data contain 
+microstructural features, etc. Tick data sample consists of ``Timestamp``, ``Price`` and ``Volume``. The data contain
 500,000 rows of cleaned tick data.
 
 .. py:currentmodule:: mlfinpy.dataset.load_datasets
@@ -166,10 +166,10 @@ ETF Prices Sample
 .. py:currentmodule:: mlfinpy.dataset.load_datasets
 .. autofunction:: load_stock_prices
 
-The data set consists of close prices for: 
-   * EEM, EWG, TIP, EWJ, EFA, IEF, EWQ, EWU, XLB, XLE, XLF, LQD, XLK, XLU, EPP,FXI, VGK, VPL, SPY, 
-     TLT, BND, CSJ, DIA 
-   * Starting from 2008 till 2016. 
+The data set consists of close prices for:
+   * EEM, EWG, TIP, EWJ, EFA, IEF, EWQ, EWU, XLB, XLE, XLF, LQD, XLK, XLU, EPP,FXI, VGK, VPL, SPY,
+     TLT, BND, CSJ, DIA
+   * Starting from 2008 till 2016.
 It can be used to test and validate portfolio optimization techniques.
 
 Example
@@ -249,4 +249,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
