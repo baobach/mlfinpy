@@ -44,8 +44,17 @@ files from disk.
 
 .. code-block:: python
 
-	# Save to csv
-	new_data.to_csv('FILE_PATH', index=False)
+   # Save to csv
+   new_data.to_csv('FILE_PATH', index=False)
+
+In this guide, we can use the provided sample ``tick_data`` using the ``dataset`` module:
+
+.. code-block:: python
+
+   from mlfinlab.datasets import (load_tick_sample, load_stock_prices, load_dollar_bar_sample)
+
+   # Load sample tick data
+   tick_df = load_tick_sample()
 
 Transform Data
 ===============
@@ -54,13 +63,42 @@ The first implemented module is ``mlfinpy.data_struture`` module. The main idea 
 a more structured data format such as ``tick_bars``, ``volume_bars``, ``dollar_bars``, etc. By doing so, we can restore the
 normality in the return distribution of the asset. This is a crutial part to create a high predictive power ML model.
 
-In the making process...
+The ``data_structure`` module has several data structures to choose from. As recommended in the literature, we will use the
+dollar bar data structure to transform the raw tick data since it is the most stable structure.
+
+.. code-block:: python
+
+   from mlfinpy.data_structure import standard_bars
+
+   # Dollar Bars with threshold $50,000 per bar
+   dollar = standard_bars.get_dollar_bars(tick_df, threshold=50_000)
+
+The detail on how to use the ``data_strucutre`` module is here :ref:`data-structure`.
 
 Fix-width Window Fracdiff (FFD)
 ===============================
-Timeseries has memory, transformation such as returns, log-returns, etc. trying to find stationarity in the timeseries. 
-This will strip away the memory which can have strong predictive power. This trade off is a dilemma.
-Fix-width Window Fracdiff (FFD) approach shows that there is no need to give up all of the memory in order to gain stationarity.
+
+Making time series stationary often requires stationary data transformations, such as integer differentiation. Transform the 
+data to create a *stationary* series can come with a cost of losing it's **memory**. The most important characteristic of a 
+financial timeseries is lost and the data is no longer hold predictive power.
+
+According to Marcos Lopez de Prado: “If the features are not stationary we cannot map the new observation to a large 
+number of known examples”. The method proposed by Marcos Lopez de Prado aims to make data stationary while preserving as much 
+memory as possible, as it’s the memory part that has predictive power.
+
+Fractionally differentiated features approach allows differentiating a time series to the point where the series is stationary,
+but not over differencing such that we lose all predictive power.
+
+.. code-block:: python
+
+   from mlfinlab.features.fracdiff import frac_diff_ffd, plot_min_ffd
+
+   # Deriving the fractionally differentiated features
+   dollar_ffd = frac_diff_ffd(dollar.close, 0.5)
+
+   # Plotting the graph to find the minimum d
+   # Make sure the input dataframe has a 'close' column
+   plot_min_ffd(dollar)
 
 In the making process...
 
