@@ -9,6 +9,9 @@ Roadmap and Changelog
 
 Initial release:
 
-- Implement Standard
+- Data Structure module
+- Labeling module
+- Sampling module
+- Filters module
 - Tests
 - Docs
