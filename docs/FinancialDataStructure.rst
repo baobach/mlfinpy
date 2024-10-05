@@ -1,15 +1,15 @@
 .. _data-structure:
 
-=========================
-Financial Data Strcutures
-=========================
+#########################
+Financial Data Structures
+#########################
 
 When analyzing financial data, unstructured data sets, in this case tick data, are commonly transformed into a structured
 format referred to as bars, where a bar represents a row in a table. mlfinpy implements tick, volume, and dollar bars
 using traditional standard bar methods as well as the less common information driven bars.
 
 Standard Bars
-#############
+=============
 
 The four standard bar methods implemented share a similar underlying idea in that they take a sample of data after a
 certain threshold is reached and they all result in a time series of Open, High, Low, and Close data.
@@ -68,7 +68,7 @@ pg 25) to build the more interesting features for predicting financial time seri
    - 24.04.2020 as a single bar again.
 
 Time Bars
-*********
+---------
 
 These are the traditional open, high, low, close bars that traders are used to seeing. The problem with using this sampling
 technique is that information doesn't arrive to market in a chronological clock, i.e. news event don't occur on the hour - every hour.
@@ -78,54 +78,74 @@ It is for this reason that Time Bars have poor statistical properties in compari
 .. py:currentmodule:: mlfinpy.data_structure.time_bars
 .. autofunction:: get_time_bars
 
+Example
+^^^^^^^
+.. code-block:: python
+
+	from mlfinpy.data_structure import time_bars
+
+	# Time bars
+	time = time_bars.get_tick_bars('FILE_PATH', resolution = "MIN",
+					num_units = 1, batch_size=1000000, 
+					verbose=False)
 
 Tick Bars
-*********
+---------
 
 .. py:currentmodule:: mlfinpy.data_structure.standard_bars
 .. autofunction:: get_tick_bars
 
-.. code-block::
+Example
+^^^^^^^
+.. code-block:: python
 
 	from mlfinpy.data_structure import standard_bars
 
 	# Tick Bars
 	tick = standard_bars.get_tick_bars('FILE_PATH', threshold=5500,
-	                                               batch_size=1000000, verbose=False)
+				            batch_size=1000000, verbose=False)
 
 
 Volume Bars
-***********
+-----------
 
 .. py:currentmodule:: mlfinpy.data_structure.standard_bars
 .. autofunction:: get_volume_bars
 
-
-.. code-block::
+Example
+^^^^^^^
+.. code-block:: python
 
 	from mlfinpy.data_structure import standard_bars
 
 	# Volume Bars
 	volume = standard_bars.get_volume_bars('FILE_PATH', threshold=28000,
-                                          batch_size=1000000, verbose=False)
+                                                batch_size=1000000, verbose=False)
 
 
 Dollar Bars
-***********
+-----------
+
+.. tip::
+   * Dollar bars are the most stable of the 4 types.
+   * It is suggested that using 1/50 of the average daily dollar value, would result in more desirable statistical properties
+
 
 .. py:currentmodule:: mlfinpy.data_structure.standard_bars
 .. autofunction::  get_dollar_bars
 
-.. code-block::
+Example
+^^^^^^^
+.. code-block:: python
 
 	from mlfinpy.data_structure import standard_bars
 
 	# Dollar Bars
 	dollar = standard_bars.get_dollar_bars('FILE_PATH', threshold=70000000,
-                                          batch_size=1000000, verbose=True)
+                                                batch_size=1000000, verbose=True)
 
 Statistical Properties
-**********************
+----------------------
 
 The chart below that tick, volume, and dollar bars all exhibit a distribution significantly closer to normal - versus
 standard time bars:
@@ -134,6 +154,8 @@ standard time bars:
    :scale: 70 %
    :align: center
 
+This matches up with the results of the original paper “The volume clock (2012)”.
+
 |
 
 ------------------------------------
@@ -141,23 +163,31 @@ standard time bars:
 |
 
 Information-Driven Bars
-#######################
+=======================
 
 Information-driven bars are based on the notion of sampling a bar when new information arrives to the market. The two
 types of information-driven bars implemented are imbalance bars and run bars. For each type, tick, volume, and dollar bars
 are included.
 
+For those new to the topic, it is discussed in the graduate level textbook: Advances in Financial Machine Learning, Chapter 2.
+
+.. warning::
+   This is a very advanced financial data structure with very little to no academic papers written about them. 
+   The idea has been introduced in the book but it requires a lot of experience to handle properly.
+
+   You should read the book Advances Machine Learning in Finance, plus that of microstructural features before committing to 
+   this data structure.
 
 Imbalance Bars
-**************
+--------------
 
-2 types of imbalance bars are implemented in mlfinpy:
+2 types of imbalance bars are implemented in **Mlfin.py**:
 
     1. Expected number of ticks, defined as EMA (book implementation)
     2. Constant number of expected number of ticks.
 
 Imbalance Bars Generation Algorithm
-===================================
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Let's discuss the generation of imbalance bars on an example of volume imbalance bars. As it is described in
 Advances in Financial Machine Learning book:
@@ -199,37 +229,38 @@ Note that when we have at least one imbalance bar generated we update :math:`2v^
 sampled and not on every trade observed
 
 Algorithm Logic
-===============
+^^^^^^^^^^^^^^^
 
 Now that we have understood the logic of the imbalance bar generation, let's understand the process in further detail.
 
-.. code-block::
+.. code-block:: python
+# Pseudo code
+num_prev_bars = 3
+expected_num_ticks_init = 100000
+expected_num_ticks = expected_num_ticks_init
+cum_theta = 0
+num_ticks = 0
+imbalance_array = []
+imbalance_bars = []
+bar_length_array = []
 
-	num_prev_bars = 3
-	expected_num_ticks_init = 100000
-	expected_num_ticks = expected_num_ticks_init
-	cum_theta = 0
-	num_ticks = 0
-	imbalance_array = []
-	imbalance_bars = []
-	bar_length_array = []
-	for row in data.rows:
-	    #track high,low,close, volume info
-	    num_ticks += 1
-	    tick_rule = get_tick_rule(price, prev_price)
-	    volume_imbalance = tick_rule * row['volume']
-	    imbalance_array.append(volume_imbalance)
-	    cum_theta += volume_imbalance
-	    if len(imbalance_bars) == 0 and len(imbalance_array) >= expected_num_ticks_init:
-	        expected_imbalance = ewma(imbalance_array, window=expected_num_ticks_init)
+for row in data.rows:
+    # Track high, low,c lose, volume info
+    num_ticks += 1
+    tick_rule = get_tick_rule(price, prev_price)
+    volume_imbalance = tick_rule * row['volume']
+    imbalance_array.append(volume_imbalance)
+    cum_theta += volume_imbalance
+    if len(imbalance_bars) == 0 and len(imbalance_array) >= expected_num_ticks_init:
+	expected_imbalance = ewma(imbalance_array, window=expected_num_ticks_init)
 
-	    if abs(cum_theta) >= expected_num_ticks * abs(expected_imbalance):
-	        bar = form_bar(open, high, low, close, volume)
-	        imbalance_bars.append(bar)
-	        bar_length_array.append(num_ticks)
-	        cum_theta, num_ticks = 0, 0
-	        expected_num_ticks = ewma(bar_lenght_array, window=num_prev_bars)
-	        expected_imbalance = ewma(imbalance_array, window = num_prev_bars*expected_num_ticks)
+    if abs(cum_theta) >= expected_num_ticks * abs(expected_imbalance):
+	bar = form_bar(open, high, low, close, volume)
+	imbalance_bars.append(bar)
+	bar_length_array.append(num_ticks)
+	cum_theta, num_ticks = 0, 0
+	expected_num_ticks = ewma(bar_lenght_array, window=num_prev_bars)
+	expected_imbalance = ewma(imbalance_array, window = num_prev_bars*expected_num_ticks)
 
 
 Note that in algorithm pseudo-code we reset :math:`\theta_t` when bar is formed, in our case the formula for :math:`\theta_t` is:
@@ -262,24 +293,57 @@ The reason for that is due to the fact that theta is accumulated when several ba
 reset :math:`\Rightarrow` condition is met on small number of ticks :math:`\Rightarrow` length of the next bar converges
 to 1 :math:`\Rightarrow` bar is sampled on the next consecutive tick.
 
-The logic described above is implemented in the **mlfinpy** package under ImbalanceBars
+The logic described above is implemented in the **Mlfin.py** package under ImbalanceBars
 
 Implementation
-==============
+^^^^^^^^^^^^^^
+There are 2 different implementations which have been discussed in the previous section.
+
+EMA Version
+~~~~~~~~~~~
+
+Tick Bars
++++++++++
 
 .. py:currentmodule:: mlfinpy.data_structure.imbalance_bars
-.. autofunction::  get_ema_dollar_imbalance_bars
+.. autofunction::  get_ema_tick_imbalance_bars
+
+Volume Bars
++++++++++++
+
+.. py:currentmodule:: mlfinpy.data_structure.imbalance_bars
 .. autofunction:: get_ema_volume_imbalance_bars
-.. autofunction:: get_ema_tick_imbalance_bars
+
+Dollar Bars
++++++++++++
+
+.. py:currentmodule:: mlfinpy.data_structure.imbalance_bars
+.. autofunction:: get_ema_dollar_imbalance_bars
+
+Constant Version
+~~~~~~~~~~~~~~~~
+
+Tick Bars
++++++++++
+
+.. py:currentmodule:: mlfinpy.data_structure.imbalance_bars
 .. autofunction:: get_const_dollar_imbalance_bars
+
+Volume Bars
++++++++++++
+
+.. py:currentmodule:: mlfinpy.data_structure.imbalance_bars
 .. autofunction:: get_const_volume_imbalance_bars
+
+Dollar Bars
++++++++++++
+
+.. py:currentmodule:: mlfinpy.data_structure.imbalance_bars
 .. autofunction:: get_const_tick_imbalance_bars
 
-
 Example
-=======
-
-.. code-block::
+^^^^^^^
+.. code-block:: python
 
    from mlfinpy.data_structure import get_ema_dollar_imbalance_bars, get_const_dollar_imbalance_bars
 
@@ -288,121 +352,3 @@ Example
                                                         exp_num_ticks_constraints=[100, 1000], expected_imbalance_window=10000)
 
    dollar_imbalance_const = get_const_dollar_imbalance_bars('FILE_PATH', exp_num_ticks_init=100000, expected_imbalance_window=10000)
-
-|
-
------------------------------
-
-|
-
-.. Run Bars
-.. ********
-
-.. Run bars share the same mathematical structure as imbalance bars, however, instead of looking at each individual trade,
-.. we are looking at sequences of trades in the same direction. The idea is that we are trying to detect order flow imbalance
-.. caused by actions such as large traders sweeping the order book or iceberg orders.
-
-.. 2 types of run bars are implemented in mlfinpy:
-
-..     1. Expected number of ticks, defined as EWMA (book implementation)
-..     2. Constant number of expected number of ticks.
-
-.. Implementation
-.. ==============
-
-.. .. py:currentmodule:: mlfinpy.data_structure.run_data_structure
-.. .. autofunction:: get_ema_dollar_run_bars
-.. .. autofunction:: get_ema_volume_run_bars
-.. .. autofunction:: get_ema_tick_run_bars
-.. .. autofunction:: get_const_dollar_run_bars
-.. .. autofunction:: get_const_volume_run_bars
-.. .. autofunction:: get_const_tick_run_bars
-
-.. Example
-.. =======
-
-.. .. code-block::
-
-..    from mlfinpy.data_structure import get_ema_dollar_run_bars, get_const_dollar_run_bars
-
-..    # EMA, Const Dollar Imbalance Bars
-..    dollar_imbalance_ema = get_ema_dollar_run_bars('FILE_PATH', num_prev_bars=3, exp_num_ticks_init=100000,
-..                                                    exp_num_ticks_constraints=[100, 1000], expected_imbalance_window=10000)
-
-..    dollar_imbalance_const = get_const_dollar_run_bars('FILE_PATH', num_prev_bars=3, exp_num_ticks_init=100000,
-..                                                       expected_imbalance_window=10000)
-
-.. |
-
-.. -----------------------
-
-.. |
-
-.. Research Notebooks
-.. ##################
-
-.. The following research notebooks can be used to better understand the previously discussed data structures
-
-.. Standard Bars
-.. *************
-
-.. * `Getting Started`_
-.. * `Sample Techniques`_
-
-.. .. _Getting Started: https://github.com/hudson-and-thames/research/blob/master/Advances%20in%20Financial%20Machine%20Learning/Financial%20Data%20Structures/Getting%20Started.ipynb
-.. .. _Sample Techniques: https://github.com/hudson-and-thames/research/blob/master/Advances%20in%20Financial%20Machine%20Learning/Financial%20Data%20Structures/Sample_Techniques.ipynb
-
-.. Imbalance Bars
-.. **************
-
-.. * `Imbalance Bars`_
-
-.. .. _Imbalance Bars: https://github.com/hudson-and-thames/research/blob/master/Advances%20in%20Financial%20Machine%20Learning/Financial%20Data%20Structures/Dollar-Imbalance-Bars.ipynb
-
-.. |
-
-.. ---------------------
-
-.. |
-
-Data Preparation Tutorial
-#########################
-
-First import your tick data.
-
-.. code-block::
-
-   # Required Imports
-   import numpy as np
-   import pandas as pd
-
-   data = pd.read_csv('data.csv')
-
-In order to utilize the bar sampling methods presented below, our data must first be formatted properly.
-Many data vendors will let you choose the format of your raw tick data files. We want to only focus on the following
-3 columns: date_time, price, volume. The reason for this is to minimise the size of the csv files and the amount of time
-when reading in the files.
-
-Our data is sourced from TickData LLC which provides software called TickWrite, to aid in the formatting of saved files.
-This allows us to save csv files in the format date_time, price, volume. (If you don't use TickWrite then make sure to pre-format your files)
-
-For this tutorial we will assume that you need to first do some pre-processing and then save your data to a csv file.
-
-.. code-block::
-
-   # Don't convert to datetime here, it will take forever to convert
-   # on account of the sheer size of tick data files.
-   date_time = data['Date'] + ' ' + data['Time']
-   new_data = pd.concat([date_time, data['Price'], data['Volume']], axis=1)
-   new_data.columns = ['date', 'price', 'volume']
-
-
-Initially, your instinct may be to pass an in-memory DataFrame object but the truth is when you're running the function
-in production, your raw tick data csv files will be way too large to hold in memory. We used the subset 2011 to 2019 and
-it was more than 25 gigs. It is for this reason that the mlfinpy package suggests using a file path to read the raw data
-files from disk.
-
-.. code-block::
-
-	# Save to csv
-	new_data.to_csv('FILE_PATH', index=False)

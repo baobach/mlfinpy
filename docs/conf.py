@@ -102,6 +102,8 @@ html_static_path = []
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = "mlfinpydoc"
+# Change the nav bar top most title for the html file
+html_title = "Mlfin.py"
 
 
 # -- Options for LaTeX output ------------------------------------------
