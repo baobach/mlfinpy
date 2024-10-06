@@ -201,6 +201,7 @@ Contents
    UserGuide
    FinancialDataStructure
    FractionalDifferentiated
+   Filtering
    Labelling
    Sampling
 
