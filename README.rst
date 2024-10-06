@@ -6,21 +6,26 @@ Mlfin.py - Advance Machine Learning application in Finance
         :target: https://pypi.python.org/pypi/mlfinpy
         :alt: PyPI Version
 
+
 .. image:: https://img.shields.io/pypi/pyversions/mlfinpy.svg
         :target: https://pypi.python.org/pypi/mlfinpy
         :alt: Python Versions
+
 
 .. image:: https://img.shields.io/badge/Platforms-linux--64,win--64,osx--64-orange.svg?style=flat-square
         :target: https://pypi.python.org/pypi/mlfinpy
         :alt: Platforms
 
+
 .. image:: https://img.shields.io/badge/license-MIT-brightgreen.svg
         :target: https://pypi.python.org/pypi/mlfinpy
         :alt: MIT License
 
+
 .. image:: https://img.shields.io/github/actions/workflow/status/baobach/mlfinpy/main.yml
         :target: https://github.com/baobach/mlfinpy
         :alt: Build Status
+
 
 .. image:: https://codecov.io/github/baobach/mlfinpy/coverage.svg?branch=main
         :target: https://codecov.io/github/baobach/mlfinpy
@@ -30,6 +35,7 @@ Mlfin.py - Advance Machine Learning application in Finance
 .. image:: https://readthedocs.org/projects/mlfinpy/badge/?version=latest
         :target: https://mlfinpy.readthedocs.io/en/latest/?version=latest
         :alt: Documentation Status
+
 
 **MLfin.py** is an Advance Machine Learning toolbox for financial applications. The main ideas is using
 proprietary works and code snippent by Dr. Marcos López de Prado to build a morden Pythonic package
