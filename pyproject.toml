@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mlfinpy"
-version = "0.1.0"
+version = "0.1.1"
 description = "Mlfin.py is an Advance Machine Learning toolbox for financial applications."
 license = "MIT"
 authors = ["Robert Bach <robert@quantfin.net>"]
