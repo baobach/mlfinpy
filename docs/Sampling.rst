@@ -1,8 +1,8 @@
 .. _sampling:
 
-##########
-Sampling Techniques
-##########
+#############
+Data Sampling
+#############
 
 In financial machine learning, samples are not independent. For the most part, traditional machine learning algorithms
 assume that samples are IID, in the case of financial machine learning samples are neither identically distributed nor
