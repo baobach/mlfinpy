@@ -32,11 +32,11 @@ def ewma(arr_in: np.ndarray, window: int) -> np.ndarray:
         The EWMA vector, same length / shape as `arr_in`
     """
 
-    arr_length: int = arr_in.shape[0]
-    ewma_arr: np.ndarray = np.empty(arr_length, dtype=np.float64)
-    alpha: float = 2 / (window + 1)
-    weight: float = 1
-    ewma_old: float = arr_in[0]
+    arr_length = arr_in.shape[0]
+    ewma_arr = np.empty(arr_length, dtype=np.float64)
+    alpha = 2 / (window + 1)
+    weight = 1
+    ewma_old = arr_in[0]
     ewma_arr[0] = ewma_old
     for i in range(1, arr_length):
         weight += (1 - alpha) ** i
