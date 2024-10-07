@@ -94,7 +94,7 @@ create the new financial data structures. Sourcing the HFT data is very difficul
 the full history of S&P500 Emini futures tick data and available for purchase.
 
 I am not affiliated with TickData in any way but would like to recommend others to make use of their service. The full
-history cost us about $750 and is worth every penny. They have really done a great job at cleaning the data and providing
+history costs $750 and is worth every penny. They have really done a great job at cleaning the data and providing
 it in a user friendly manner.
 
 .. _TickData LLC: https://www.tickdata.com/
