@@ -1,5 +1,5 @@
 """
-Tests the financial data structures
+Tests for the `data_structure` module.
 """
 
 import os
