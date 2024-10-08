@@ -72,9 +72,9 @@ def get_ind_matrix(samples_info_sets: pd.Series, price_bars: pd.DataFrame) -> np
 
 def get_ind_mat_average_uniqueness(ind_mat: np.ndarray) -> float:
     """
-    Compute Average Uniqueness
+    Compute Average Uniqueness.
 
-    Average uniqueness from indicator matrix
+    Average uniqueness from indicator matrix.
 
     Parameters
     ----------
@@ -85,7 +85,9 @@ def get_ind_mat_average_uniqueness(ind_mat: np.ndarray) -> float:
     -------
     avg_uniqueness : float
         Average uniqueness.
-    ---
+
+    Notes
+    -----
     Reference: Advances in Financial Machine Learning, Snippet 4.4. page 65.
     """
     ind_mat = np.array(ind_mat, dtype=np.float64)
@@ -109,7 +111,8 @@ def get_ind_mat_label_uniqueness(ind_mat: np.ndarray) -> np.ndarray:
     Returns
     -------
     uniqueness : np.ndarray
-        Element uniqueness.
+        Label uniqueness.
+
     ---
     Reference: Advances in Financial Machine Learning, An adaption of Snippet 4.4. page 65.
     """
