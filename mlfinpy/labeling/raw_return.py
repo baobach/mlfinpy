@@ -1,5 +1,5 @@
 """
-Labeling Raw Returns.
+Raw Returns Labeling Method
 
 Most basic form of labeling based on raw return of each observation relative to its previous value.
 """

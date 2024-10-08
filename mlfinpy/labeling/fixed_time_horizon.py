@@ -1,4 +1,6 @@
 """
+Fixed-Time-Horizon Labeling Method
+
 The article "Classification-based Financial Markets Prediction using Deep Neural Networks"
 by Dixon et al. (2016) describes how labeling data this way can be used in training deep
 neural networks to predict price movements.

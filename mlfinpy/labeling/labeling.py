@@ -1,3 +1,11 @@
+"""
+Triple Barriers Method combine with Meta Labeling Method
+
+This is the implementation of "Chapter 3: Labeling" in the book "Advances in Financial Machine Learning".
+This module combine Meta Labeling with Triple Barrier Labeling Method to label events that will be used
+to train the ML algorithm.
+"""
+
 from typing import List, Optional, Union
 
 import numpy as np
@@ -7,7 +15,7 @@ from mlfinpy.util.multiprocess import mp_pandas_obj
 
 
 # Snippet 3.2, page 45, Triple Barrier Labeling Method
-def apply_pt_sl_on_t1(close: pd.Series, events: pd.Series, pt_sl: np.array, molecule: np.array) -> pd.DataFrame:
+def triple_barriers(close: pd.Series, events: pd.Series, pt_sl: np.array, molecule: np.array) -> pd.DataFrame:
     # pragma: no cover
     """
     Triple Barrier Labeling Method
@@ -203,7 +211,7 @@ def get_events(
 
     # Apply Triple Barrier
     first_touch_dates = mp_pandas_obj(
-        func=apply_pt_sl_on_t1,
+        func=triple_barriers,
         pd_obj=("molecule", events.index),
         num_threads=num_threads,
         close=close,
