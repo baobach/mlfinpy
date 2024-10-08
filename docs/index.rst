@@ -167,9 +167,11 @@ ETF Prices Sample
 .. autofunction:: load_stock_prices
 
 The data set consists of close prices for:
+
    * EEM, EWG, TIP, EWJ, EFA, IEF, EWQ, EWU, XLB, XLE, XLF, LQD, XLK, XLU, EPP,FXI, VGK, VPL, SPY,
      TLT, BND, CSJ, DIA
    * Starting from 2008 till 2016.
+
 It can be used to test and validate portfolio optimization techniques.
 
 Example
@@ -177,7 +179,7 @@ Example
 
 .. code-block:: python
 
-   from mlfinlab.datasets import (load_tick_sample, load_stock_prices, load_dollar_bar_sample)
+   from mlfinpy.datasets import (load_tick_sample, load_stock_prices, load_dollar_bar_sample)
 
    # Load sample tick data
    tick_df = load_tick_sample()

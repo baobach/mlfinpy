@@ -4,13 +4,14 @@
 Data Labelling
 ##############
 
-The simplest approach to supvervised financial machine learning is to aim to predict the price of an instrument at some fixed horison. 
-But due to the nature of the data, this goal is practically unachievable. Another approach is to focus on the classification problem, 
-i.e. predict discretized returns. Classification problem with finite set of possible labels has a greater chan to obtain predictive 
+The simplest approach to supvervised financial machine learning is to aim to predict the price of an instrument at some fixed horison.
+But due to the nature of the data, this goal is practically unachievable. Another approach is to focus on the classification problem,
+i.e. predict discretized returns. Classification problem with finite set of possible labels has a greater chan to obtain predictive
 power than regression problem where the pool of outcome is virtually infinite.
 
-This module implemented both the commonly used as well as a couple of interesting techniques for labeling financial data. The vast 
+This module implemented both the commonly used as well as a couple of interesting techniques for labeling financial data. The vast
 majority of our users make use of the following labeling schemes (in a classification setting):
+
     * Raw Returns
     * Fixed Horizon
     * Triple-Barrier and Meta-labeling
@@ -108,7 +109,7 @@ Fixed horizon labels is a classification labeling technique used in the followin
 Bang, J., 2016. Classification-based Financial Markets Prediction using Deep Neural Networks. <https://arxiv.org/abs/1603.08604>`_
 
 Fixed time horizon is a common method used in labeling financial data, usually applied on time bars. The rate of return relative
-to :math:`t_0` over time horizon :math:`h`, assuming that returns are lagged, is calculated as follows (M.L. de Prado, Advances in 
+to :math:`t_0` over time horizon :math:`h`, assuming that returns are lagged, is calculated as follows (M.L. de Prado, Advances in
 Financial Machine Learning, 2018):
 
 .. math::
@@ -205,8 +206,9 @@ Below is an example on how to use the Fixed Horizon labeling technique on real d
 |
 
 .. _labelling-tb_meta:
+
 Triple-Barrier and Meta-Labelling
-=====================
+=================================
 
 The primary labeling method used in financial academia is the fixed-time horizon method. While ubiquitous, this method
 has many faults which are remedied by the triple-barrier method discussed below. The triple-barrier method can be
@@ -284,11 +286,11 @@ by the primary model. Stated differently, the role of the secondary ML algorithm
 model is true or false. It is not its purpose to come up with a betting opportunity. Its purpose is to determine whether we should act or pass
 on the opportunity that has been presented.
 
-Meta-labeling is a very powerful tool to have in your arsenal, for four additional reasons: 
+Meta-labeling is a very powerful tool to have in your arsenal, for four additional reasons:
 
-**First**, ML algorithms are often criticized as black boxes. Meta-labeling allows you to build an ML system on top of a white box 
+**First**, ML algorithms are often criticized as black boxes. Meta-labeling allows you to build an ML system on top of a white box
 (like a fundamental model founded on economic theory). This ability to transform a fundamental model into an ML model should make
-meta-labeling particularly useful to “quantamental” firms. 
+meta-labeling particularly useful to “quantamental” firms.
 
 **Second**, the effects of overfitting are limited when you apply metalabeling, because ML will not decide the side of your bet, only the size.
 
@@ -297,8 +299,8 @@ that the features driving a rally may differ from the features driving a sell-of
 for long positions, based on the buy recommendations of a primary model, and an ML strategy exclusively for short positions, based on the sell
 recommendations of an entirely different primary model.
 
-**Fourth**, achieving high accuracy on small bets and low accuracy on large bets will ruin you. As important as identifying good opportunities is to size them 
-properly, so it makes sense to develop an ML algorithm solely focused on getting that critical decision (sizing) right. We will retake this fourth point in 
+**Fourth**, achieving high accuracy on small bets and low accuracy on large bets will ruin you. As important as identifying good opportunities is to size them
+properly, so it makes sense to develop an ML algorithm solely focused on getting that critical decision (sizing) right. We will retake this fourth point in
 Chapter 10. In my experience, meta-labeling ML models can deliver more robust and reliable outcomes than standard labeling models.
 
 Model Architecture

@@ -86,7 +86,7 @@ Example
 
 	# Time bars
 	time = time_bars.get_tick_bars('FILE_PATH', resolution = "MIN",
-					num_units = 1, batch_size=1000000, 
+					num_units = 1, batch_size=1000000,
 					verbose=False)
 
 Tick Bars
@@ -172,10 +172,10 @@ are included.
 For those new to the topic, it is discussed in the graduate level textbook: Advances in Financial Machine Learning, Chapter 2.
 
 .. warning::
-   This is a very advanced financial data structure with very little to no academic papers written about them. 
+   This is a very advanced financial data structure with very little to no academic papers written about them.
    The idea has been introduced in the book but it requires a lot of experience to handle properly.
 
-   You should read the book Advances Machine Learning in Finance, plus that of microstructural features before committing to 
+   You should read the book Advances Machine Learning in Finance, plus that of microstructural features before committing to
    this data structure.
 
 Imbalance Bars
@@ -234,34 +234,34 @@ Algorithm Logic
 Now that we have understood the logic of the imbalance bar generation, let's understand the process in further detail.
 
 .. code-block:: python
-# Pseudo code
-num_prev_bars = 3
-expected_num_ticks_init = 100000
-expected_num_ticks = expected_num_ticks_init
-cum_theta = 0
-num_ticks = 0
-imbalance_array = []
-imbalance_bars = []
-bar_length_array = []
 
-for row in data.rows:
-    # Track high, low,c lose, volume info
-    num_ticks += 1
-    tick_rule = get_tick_rule(price, prev_price)
-    volume_imbalance = tick_rule * row['volume']
-    imbalance_array.append(volume_imbalance)
-    cum_theta += volume_imbalance
-    if len(imbalance_bars) == 0 and len(imbalance_array) >= expected_num_ticks_init:
-	expected_imbalance = ewma(imbalance_array, window=expected_num_ticks_init)
+   # Pseudo code
+   num_prev_bars = 3
+   expected_num_ticks_init = 100000
+   expected_num_ticks = expected_num_ticks_init
+   cum_theta = 0
+   num_ticks = 0
+   imbalance_array = []
+   imbalance_bars = []
+   bar_length_array = []
 
-    if abs(cum_theta) >= expected_num_ticks * abs(expected_imbalance):
-	bar = form_bar(open, high, low, close, volume)
-	imbalance_bars.append(bar)
-	bar_length_array.append(num_ticks)
-	cum_theta, num_ticks = 0, 0
-	expected_num_ticks = ewma(bar_lenght_array, window=num_prev_bars)
-	expected_imbalance = ewma(imbalance_array, window = num_prev_bars*expected_num_ticks)
+   for row in data.rows:
+      # Track high, low,c lose, volume info
+      num_ticks += 1
+      tick_rule = get_tick_rule(price, prev_price)
+      volume_imbalance = tick_rule * row['volume']
+      imbalance_array.append(volume_imbalance)
+      cum_theta += volume_imbalance
+      if len(imbalance_bars) == 0 and len(imbalance_array) >= expected_num_ticks_init:
+      expected_imbalance = ewma(imbalance_array, window=expected_num_ticks_init)
 
+      if abs(cum_theta) >= expected_num_ticks * abs(expected_imbalance):
+      bar = form_bar(open, high, low, close, volume)
+      imbalance_bars.append(bar)
+      bar_length_array.append(num_ticks)
+      cum_theta, num_ticks = 0, 0
+      expected_num_ticks = ewma(bar_lenght_array, window=num_prev_bars)
+      expected_imbalance = ewma(imbalance_array, window = num_prev_bars*expected_num_ticks)
 
 Note that in algorithm pseudo-code we reset :math:`\theta_t` when bar is formed, in our case the formula for :math:`\theta_t` is:
 

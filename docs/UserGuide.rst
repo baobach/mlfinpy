@@ -9,7 +9,7 @@ Data Preparation
 
 In order to utilize the bar sampling methods presented below, our data must first be formatted properly.
 Many data vendors will let you choose the format of your raw tick data files. We want to only focus on the following
-3 columns: ``date_time``, ``price``, ``volume``. The reason for this is to minimise the size of the csv files and the 
+3 columns: ``date_time``, ``price``, ``volume``. The reason for this is to minimise the size of the csv files and the
 amount of time when reading in the files.
 
 First import your tick data.
@@ -23,7 +23,7 @@ First import your tick data.
    data = pd.read_csv('data.csv')
 
 The provided data is sourced from TickData LLC which provides software called TickWrite, to aid in the formatting of saved files.
-This allows us to save csv files in the format date_time, price, volume. (If you don't use TickWrite then make sure to 
+This allows us to save csv files in the format date_time, price, volume. (If you don't use TickWrite then make sure to
 pre-format your files)
 
 Make sure to first do some pre-processing and then save the data to a ``.csv`` file or provide a ``pandas.DataFrame`` input.
@@ -51,7 +51,7 @@ In this guide, we can use the provided sample ``tick_data`` using the ``dataset`
 
 .. code-block:: python
 
-   from mlfinlab.datasets import (load_tick_sample, load_stock_prices, load_dollar_bar_sample)
+   from mlfinpy.datasets import (load_tick_sample, load_stock_prices, load_dollar_bar_sample)
 
    # Load sample tick data
    tick_df = load_tick_sample()
@@ -78,12 +78,12 @@ The detail on how to use the ``data_strucutre`` module is here :ref:`data-struct
 Fix-width Window Fracdiff (FFD)
 ===============================
 
-Making time series stationary often requires stationary data transformations, such as integer differentiation. Transform the 
-data to create a *stationary* series can come with a cost of losing it's **memory**. The most important characteristic of a 
+Making time series stationary often requires stationary data transformations, such as integer differentiation. Transform the
+data to create a *stationary* series can come with a cost of losing it's **memory**. The most important characteristic of a
 financial timeseries is lost and the data is no longer hold predictive power.
 
-According to Marcos Lopez de Prado: “If the features are not stationary we cannot map the new observation to a large 
-number of known examples”. The method proposed by Marcos Lopez de Prado aims to make data stationary while preserving as much 
+According to Marcos Lopez de Prado: “If the features are not stationary we cannot map the new observation to a large
+number of known examples”. The method proposed by Marcos Lopez de Prado aims to make data stationary while preserving as much
 memory as possible, as it’s the memory part that has predictive power.
 
 Fractionally differentiated features approach allows differentiating a time series to the point where the series is stationary,
@@ -91,7 +91,7 @@ but not over differencing such that we lose all predictive power.
 
 .. code-block:: python
 
-   from mlfinlab.features.fracdiff import frac_diff_ffd, plot_min_ffd
+   from mlfinpy.util.frac_diff import frac_diff_ffd, plot_min_ffd
 
    # Deriving the fractionally differentiated features
    dollar_ffd = frac_diff_ffd(dollar.close, 0.5)
@@ -125,4 +125,3 @@ Train The Classifier
 Fit bagging classifiers of decision trees.
 
 In the making process...
-
