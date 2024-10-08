@@ -12,6 +12,7 @@ from mlfinpy.labeling.labeling import (
     triple_barriers,
 )
 from mlfinpy.labeling.raw_return import raw_return
+from mlfinpy.labeling.trend_scanning import trend_scanning_labels
 
 __all__ = [
     "add_vertical_barrier",
@@ -22,4 +23,5 @@ __all__ = [
     "get_events",
     "fixed_time_horizon",
     "raw_return",
+    "trend_scanning_labels",
 ]
