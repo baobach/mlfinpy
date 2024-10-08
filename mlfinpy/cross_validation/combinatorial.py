@@ -135,7 +135,6 @@ class CombinatorialPurgedKFold(KFold):
                     for ix in test_splits
                 ],
             )
-
             test_indices = []
             for [start_ix, end_ix] in test_splits:
                 test_indices.extend(list(range(start_ix, end_ix)))
