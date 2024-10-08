@@ -12,6 +12,8 @@ import pandas as pd
 from sklearn.base import ClassifierMixin
 from sklearn.metrics import log_loss
 from sklearn.model_selection import BaseCrossValidator, KFold
+from sklearn.utils import indexable
+from sklearn.utils.validation import _num_samples
 
 
 def ml_get_train_times(samples_info_sets: pd.Series, test_times: pd.Series) -> pd.Series:
@@ -38,7 +40,7 @@ def ml_get_train_times(samples_info_sets: pd.Series, test_times: pd.Series) -> p
         Training set.
     """
     train = samples_info_sets.copy(deep=True)
-    for start_ix, end_ix in test_times.iteritems():
+    for start_ix, end_ix in test_times.items():
         df0 = train[(start_ix <= train.index) & (train.index <= end_ix)].index.unique()  # Train starts within test
         df1 = train[(start_ix <= train) & (train <= end_ix)].index.unique()  # Train ends within test
         df2 = train[(train.index <= start_ix) & (end_ix <= train)].index.unique()  # Train envelops test
@@ -48,7 +50,7 @@ def ml_get_train_times(samples_info_sets: pd.Series, test_times: pd.Series) -> p
 
 class PurgedKFold(KFold):
     """
-    Extend KFold class to work with labels that span intervals.
+    Extend ``KFold`` class to work with labels that span intervals.
 
     The train is purged of observations overlapping test-label intervals.
     Test set is assumed contiguous (``shuffle`` = False), w/o training samples in between.
@@ -68,56 +70,64 @@ class PurgedKFold(KFold):
     def __init__(self, n_splits: int = 3, samples_info_sets: pd.Series = None, pct_embargo: float = 0.0):
 
         if not isinstance(samples_info_sets, pd.Series):
-            raise ValueError("The samples_info_sets param must be a pd.Series")
+            raise ValueError("The samples_info_sets param must be a ``pd.Series``")
         super(PurgedKFold, self).__init__(n_splits, shuffle=False, random_state=None)
 
         self.samples_info_sets = samples_info_sets
         self.pct_embargo = pct_embargo
 
     # noinspection PyPep8Naming
-    def split(self, X: pd.DataFrame, y: pd.Series = None, groups=None):
+    def split(self, X: pd.DataFrame, y: pd.Series = None, groups: np.ndarray = None):
         """
         The main method to call for the PurgedKFold class
 
         Parameters
         ----------
-        X : pd.DataFrame
-            Samples dataset that is to be split
-        y : pd.Series, default None
-            Sample labels series
-        groups : array-like, optional
+        X : array-like of shape (n_samples, n_features)
+            Training data, where `n_samples` is the number of samples
+            and `n_features` is the number of features.
+
+        y : array-like of shape (n_samples,), default=None
+            The target variable for supervised learning problems.
+
+        groups : array-like of shape (n_samples,), default=None
             Group labels for the samples used while splitting the dataset into
             train/test set.
 
-        Returns
-        -------
-        tuple
-            [train list of sample indices, and test list of sample indices]
+        Yields
+        ------
+        train : ndarray
+            The training set indices for that split.
+
+        test : ndarray
+            The testing set indices for that split.
         """
+        X, y, groups = indexable(X, y, groups)
+
         if X.shape[0] != self.samples_info_sets.shape[0]:
             raise ValueError("X and the 'samples_info_sets' series param must be the same length")
 
-        indices: np.ndarray = np.arange(X.shape[0])
+        indices = np.arange(_num_samples(X))
+
+        embargo = int(X.shape[0] * self.pct_embargo)
 
         test_ranges = [(ix[0], ix[-1] + 1) for ix in np.array_split(np.arange(X.shape[0]), self.n_splits)]
+
         for start_ix, end_ix in test_ranges:
             test_indices = indices[start_ix:end_ix]
 
-            # Add pct_embargo multiple to extend test times (not test indices) which will
-            # affect train times and not actual test indices
-            delta = self.samples_info_sets[0] - self.samples_info_sets.index[0]
-            end = self.samples_info_sets.iloc[end_ix - 1] + (delta * 100 * self.pct_embargo)
+            if end_ix < X.shape[0]:
+                end_ix += embargo
 
-            test_times = pd.Series(index=[self.samples_info_sets.index[start_ix]], data=[end])
+            test_times = pd.Series(
+                index=[self.samples_info_sets.iloc[start_ix]], data=[self.samples_info_sets.iloc[end_ix - 1]]
+            )
             train_times = ml_get_train_times(self.samples_info_sets, test_times)
 
-            train_indices = []
-            for train_ix in train_times.index.unique():
-                loc = self.samples_info_sets.index.get_loc(train_ix)
-                if not isinstance(loc, int):
-                    loc = np.arange(loc.start, loc.stop)
-                train_indices.append(loc)
-            train_indices = np.concatenate(train_indices)
+            train_indices = list()
+
+            for train_ix in train_times.index:
+                train_indices.append(self.samples_info_sets.index.get_loc(train_ix))
 
             # Sanity check (no overlap)
             if len(np.intersect1d(train_indices, test_indices)) > 0:
