@@ -302,7 +302,7 @@ def frac_diff_ffd(series: pd.Series, diff_amt: float, thresh: float = 1e-5) -> p
     return FractionalDifferentiation.frac_diff_ffd(series, diff_amt, thresh)
 
 
-def plot_min_ffd(series: pd.DataFrame) -> plt.AxesSubplot:
+def plot_min_ffd(series: pd.DataFrame) -> plt.plot:
     """
     This function plots the graph to find the minimum D value that passes the ADF test.
 
@@ -326,7 +326,7 @@ def plot_min_ffd(series: pd.DataFrame) -> plt.AxesSubplot:
 
     Returns
     -------
-    plt.AxesSubplot
+    plt.plot
         A plot that can be displayed or used to obtain resulting data.
 
     Notes
