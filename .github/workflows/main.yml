@@ -41,9 +41,8 @@ jobs:
 
     # Only run this job if the "ci" job passes
     needs: test
-    # Only run this job if new work is pushed to "main"
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
+    # Only run on pushes to tags
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')  # only publish to PyPI on tag pushes
     name: Build distribution 📦
     runs-on: ubuntu-latest
 
