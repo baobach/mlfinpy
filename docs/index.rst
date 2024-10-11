@@ -206,6 +206,7 @@ Contents
    Filtering
    Labelling
    Sampling
+   EnsembleModels
 
 .. toctree::
    :maxdepth: 1
