@@ -1,8 +1,8 @@
 .. _sb_bagging:
 
-###################################
-Sequentially Bootstrapped Ensembles
-###################################
+#########################
+Sequentially Bootstrapped
+#########################
 
 In sampling section we have shown that sampling should be done by Sequential Bootstrapping.
 ``SequentiallyBootstrappedBaggingClassifier`` and ``SequentiallyBootstrappedBaggingRegressor`` classes extend `sklearn <https://scikit-learn.org/>`_'s
@@ -11,13 +11,13 @@ In sampling section we have shown that sampling should be done by Sequential Boo
 In order to build indicator matrix we need Triple Barrier Events (``samples_info_sets``) and price bars used to label
 training data set. That is why ``samples_info_sets`` and ``price_bars`` are input parameters for classifier/regressor.
 
-To better understand the underlying method, you may be interested in reading the :ref:`sampling-seq-bootstrap`_ of **Mlfin.py** documentation.
+To better understand the underlying method, you may be interested in reading the :ref:`Sampling/Sequential Bootstrapping <sampling-seq-bootstrap>`.
 
 Implementation
 ==============
 
-.. py:currentmodule:: mlfinlab.ensemble.sb_bagging
-.. automodule:: mlfinlab.ensemble.sb_bagging
+.. py:currentmodule:: mlfinpy.ensemble.sb_bagging
+.. automodule:: mlfinpy.ensemble.sb_bagging
    :members: SequentiallyBootstrappedBaggingClassifier, SequentiallyBootstrappedBaggingRegressor
 
 Example
