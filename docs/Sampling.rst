@@ -63,6 +63,7 @@ An example of calculating average uniqueness given that we have already have our
 We would like to build our model in such a way that it takes into account label concurrency (overlapping samples).
 In order to do that we need to look at the bootstrapping algorithm of a Random Forest.
 
+.. _sampling-seq-bootstrap:
 Sequential Bootstrapping
 ========================
 
