@@ -44,7 +44,7 @@ class TesStructuralBreaks(unittest.TestCase):
         self.assertEqual(log_prices.shape[0] - min_length * 2, stats.shape[0])
         self.assertAlmostEqual(stats.max(), 0.179, delta=1e-3)
         self.assertAlmostEqual(stats.mean(), -0.653, delta=1e-3)
-        self.assertAlmostEqual(stats[3], -0.6649, delta=1e-3)
+        self.assertAlmostEqual(stats.iloc[3], -0.6649, delta=1e-3)
 
     def test_chu_stinchcombe_value_diff_function(self):
         """
@@ -74,19 +74,19 @@ class TesStructuralBreaks(unittest.TestCase):
 
         self.assertAlmostEqual(one_sided_test.critical_value.max(), 3.265, delta=1e-3)
         self.assertAlmostEqual(one_sided_test.critical_value.mean(), 2.7809, delta=1e-3)
-        self.assertAlmostEqual(one_sided_test.critical_value[20], 2.4466, delta=1e-3)
+        self.assertAlmostEqual(one_sided_test.critical_value.iloc[20], 2.4466, delta=1e-3)
 
         self.assertAlmostEqual(one_sided_test.stat.max(), 3729.001, delta=1e-3)
         self.assertAlmostEqual(one_sided_test.stat.mean(), 836.509, delta=1e-3)
-        self.assertAlmostEqual(one_sided_test.stat[20], 380.137, delta=1e-3)
+        self.assertAlmostEqual(one_sided_test.stat.iloc[20], 380.137, delta=1e-3)
 
         self.assertAlmostEqual(two_sided_test.critical_value.max(), 3.235, delta=1e-3)
         self.assertAlmostEqual(two_sided_test.critical_value.mean(), 2.769, delta=1e-3)
-        self.assertAlmostEqual(two_sided_test.critical_value[20], 2.715, delta=1e-3)
+        self.assertAlmostEqual(two_sided_test.critical_value.iloc[20], 2.715, delta=1e-3)
 
         self.assertAlmostEqual(two_sided_test.stat.max(), 5518.519, delta=1e-3)
         self.assertAlmostEqual(two_sided_test.stat.mean(), 1264.582, delta=1e-3)
-        self.assertAlmostEqual(two_sided_test.stat[20], 921.2979, delta=1e-3)
+        self.assertAlmostEqual(two_sided_test.stat.iloc[20], 921.2979, delta=1e-3)
 
         self.assertRaises(ValueError, get_chu_stinchcombe_white_statistics, log_prices, "rubbish text")
 
@@ -142,28 +142,28 @@ class TesStructuralBreaks(unittest.TestCase):
         self.assertAlmostEqual(sm_power_sadf.iloc[29], 17.369, delta=1e-3)
 
         self.assertAlmostEqual(linear_sadf.mean(), -0.669, delta=1e-3)
-        self.assertAlmostEqual(linear_sadf[29], -0.717, delta=1e-3)
+        self.assertAlmostEqual(linear_sadf.iloc[29], -0.717, delta=1e-3)
 
         self.assertAlmostEqual(linear_sadf_no_const_lags_arr.mean(), 1.899, delta=1e-3)
-        self.assertAlmostEqual(linear_sadf_no_const_lags_arr[29], 1.252, delta=1e-3)
+        self.assertAlmostEqual(linear_sadf_no_const_lags_arr.iloc[29], 1.252, delta=1e-3)
 
         self.assertAlmostEqual(quadratic_sadf.mean(), -1.002, delta=1e-3)
-        self.assertAlmostEqual(quadratic_sadf[29], -1.460, delta=1e-3)
+        self.assertAlmostEqual(quadratic_sadf.iloc[29], -1.460, delta=1e-3)
 
         self.assertAlmostEqual(sm_poly_1_sadf.mean(), 26.033, delta=1e-3)
-        self.assertAlmostEqual(sm_poly_1_sadf[29], 8.350, delta=1e-3)
+        self.assertAlmostEqual(sm_poly_1_sadf.iloc[29], 8.350, delta=1e-3)
 
         self.assertAlmostEqual(sm_poly_2_sadf.mean(), 26.031, delta=1e-3)
-        self.assertAlmostEqual(sm_poly_2_sadf[29], 8.353, delta=1e-3)
+        self.assertAlmostEqual(sm_poly_2_sadf.iloc[29], 8.353, delta=1e-3)
 
         self.assertAlmostEqual(sm_exp_sadf.mean(), 28.916, delta=1e-3)
-        self.assertAlmostEqual(sm_exp_sadf[29], 17.100, delta=1e-3)
+        self.assertAlmostEqual(sm_exp_sadf.iloc[29], 17.100, delta=1e-3)
 
         self.assertAlmostEqual(sm_power_sadf_phi.mean(), 1.4874, delta=1e-3)
         self.assertAlmostEqual(sm_power_sadf_phi.iloc[29], 2.4564, delta=1e-3)
 
         self.assertAlmostEqual(sm_exp_sadf_phi.mean(), 1.4787, delta=1e-3)
-        self.assertAlmostEqual(sm_exp_sadf_phi[29], 2.4183, delta=1e-3)
+        self.assertAlmostEqual(sm_exp_sadf_phi.iloc[29], 2.4183, delta=1e-3)
 
         # Trivial series case.
         ones_series = pd.Series(index=log_prices.index, data=np.ones(shape=log_prices.shape[0]))

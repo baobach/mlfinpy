@@ -22,7 +22,7 @@ class TestDatasets(unittest.TestCase):
         """
 
         tick_sample_df = load_tick_sample()
-        self.assertEqual(tick_sample_df.shape[0], 500000)
+        self.assertEqual(tick_sample_df.shape[0], 2008674)
         self.assertTrue("Price" in tick_sample_df.columns)
         self.assertTrue("Volume" in tick_sample_df.columns)
 
