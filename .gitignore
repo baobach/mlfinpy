@@ -107,3 +107,4 @@ ENV/
 # IDE settings
 .vscode/
 .idea/
+mlfinpy/dataset/data/SP.csv
