@@ -16,12 +16,16 @@ import mlfinpy.data_structure as data_structure
 import mlfinpy.dataset as dataset
 import mlfinpy.filters.filters as filters
 import mlfinpy.labeling as labeling
+import mlfinpy.sample_weights as sample_weights
+import mlfinpy.sampling as sampling
 import mlfinpy.util as util
 
 __all__ = [
     "data_structure",
+    "dataset",
     "filters",
     "labeling",
+    "sample_weights",
+    "sampling",
     "util",
-    "dataset",
 ]
