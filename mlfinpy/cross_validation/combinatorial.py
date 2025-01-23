@@ -16,9 +16,18 @@ from mlfinpy.cross_validation import ml_get_train_times
 def _get_number_of_backtest_paths(n_train_splits: int, n_test_splits: int) -> float:
     """
     Number of combinatorial paths for CPCV(N,K)
-    :param n_train_splits: (int) number of train splits
-    :param n_test_splits: (int) number of test splits
-    :return: (int) number of backtest paths for CPCV(N,k)
+
+    Parameters
+    ----------
+    n_train_splits : int
+        Number of train splits.
+    n_test_splits : int
+        Number of test splits.
+
+    Returns
+    -------
+    int
+        Number of backtest paths for CPCV(N,k).
     """
     return int(comb(n_train_splits, n_train_splits - n_test_splits) * n_test_splits / n_train_splits)
 
@@ -27,16 +36,21 @@ class CombinatorialPurgedKFold(KFold):
     """
     Advances in Financial Machine Learning, Chapter 12.
 
-    Implements Combinatial Purged Cross Validation (CPCV)
+    Implements Combinatorial Purged Cross Validation (CPCV).
 
-    The train is purged of observations overlapping test-label intervals
-    Test set is assumed contiguous (shuffle=False), w/o training samples in between
+    The train is purged of observations overlapping test-label intervals.
+    Test set is assumed contiguous (shuffle=False), without training samples in between.
 
-    :param n_splits: (int) The number of splits. Default to 3
-    :param samples_info_sets: (pd.Series) The information range on which each record is constructed from
+    Parameters
+    ----------
+    n_splits : int, optional
+        The number of splits. Default is 3.
+    samples_info_sets : pd.Series, optional
+        The information range on which each record is constructed from.
         *samples_info_sets.index*: Time when the information extraction started.
         *samples_info_sets.value*: Time when the information extraction ended.
-    :param pct_embargo: (float) Percent that determines the embargo size.
+    pct_embargo : float, optional
+        Percent that determines the embargo size. Default is 1.
     """
 
     def __init__(
@@ -56,10 +70,17 @@ class CombinatorialPurgedKFold(KFold):
     def _generate_combinatorial_test_ranges(self, splits_indices: dict) -> List:
         """
         Using start and end indices of test splits from KFolds and number of test_splits (self.n_test_splits),
-        generates combinatorial test ranges splits
+        generates combinatorial test ranges splits.
 
-        :param splits_indices: (dict) Test fold integer index: [start test index, end test index]
-        :return: (list) Combinatorial test splits ([start index, end index])
+        Parameters
+        ----------
+        splits_indices : dict
+            Test fold integer index: [start test index, end test index].
+
+        Returns
+        -------
+        list
+            Combinatorial test splits ([start index, end index]).
         """
 
         # Possible test splits for each fold
@@ -77,7 +98,12 @@ class CombinatorialPurgedKFold(KFold):
         Using start and end indices of test splits and purged/embargoed train indices from CPCV, find backtest path and
         place in the path where these indices should be used.
 
-        :param test_splits: (list) of lists with first element corresponding to test start index and second - test end
+        Parameters
+        ----------
+        train_indices : list
+            List of train indices.
+        test_splits : list
+            List of lists with first element corresponding to test start index and second - test end.
         """
         # Fill backtest paths using train/test splits from CPCV
         for split in test_splits:
@@ -92,14 +118,21 @@ class CombinatorialPurgedKFold(KFold):
     # noinspection PyPep8Naming
     def split(self, X: pd.DataFrame, y: pd.Series = None, groups=None):
         """
-        The main method to call for the PurgedKFold class
+        The main method to call for the PurgedKFold class.
 
-        :param X: (pd.DataFrame) Samples dataset that is to be split
-        :param y: (pd.Series) Sample labels series
-        :param groups: (array-like), with shape (n_samples,), optional
-            Group labels for the samples used while splitting the dataset into
-            train/test set.
-        :return: (tuple) [train list of sample indices, and test list of sample indices]
+        Parameters
+        ----------
+        X : pd.DataFrame
+            Samples dataset that is to be split.
+        y : pd.Series, optional
+            Sample labels series.
+        groups : array-like, optional
+            Group labels for the samples used while splitting the dataset into train/test set.
+
+        Returns
+        -------
+        tuple
+            [train list of sample indices, and test list of sample indices].
         """
         if X.shape[0] != self.samples_info_sets.shape[0]:
             raise ValueError("X and the 'samples_info_sets' series param must be the same length")
