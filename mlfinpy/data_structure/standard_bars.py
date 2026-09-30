@@ -81,7 +81,7 @@ class StandardBars(BaseBars):
         # Iterate over rows
         list_bars = []
 
-        for row in raw_tick_data:
+        for i, row in enumerate(raw_tick_data):
             # Set variables
             date_time = row[0]
             self.tick_num += 1
@@ -104,10 +104,15 @@ class StandardBars(BaseBars):
                 self.cum_statistics["cum_buy_volume"] += volume
 
             # If threshold reached then take a sample
-            if self.cum_statistics[self.inform_bar_type] >= self.threshold:  # pylint: disable=eval-used
-                self._create_bars(date_time, price, self.high_price, self.low_price, list_bars)
-
-                # Reset cache
+            try:
+                if isinstance(self.threshold, float):
+                    if self.cum_statistics[self.inform_bar_type] >= self.threshold:  # pylint: disable=eval-used
+                        self._create_bars(date_time, price, self.high_price, self.low_price, list_bars)
+                elif isinstance(self.threshold, pd.Series):
+                    if self.cum_statistics[self.inform_bar_type] >= self.threshold.loc[i]:
+                        self._create_bars(date_time, price, self.high_price, self.low_price, list_bars)
+            # Reset cache    
+            finally:
                 self._reset_cache()
         return list_bars
 
