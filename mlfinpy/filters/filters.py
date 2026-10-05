@@ -100,6 +100,7 @@ def z_score_filter(
     std_window: int,
     z_score: float = 3,
     time_stamps: bool = True,
+    influence: float = 1,
 ) -> Union[pd.DatetimeIndex, list]:
     """
     Filter which implements z_score filter.
@@ -117,6 +118,12 @@ def z_score_filter(
     time_stamps : bool
         Default is to return a DateTimeIndex, change to false to have it return a list.
 
+    influence : float
+        Weight of detected events in subsequent rolling statistics, from 0 to 1.
+        Both positive and negative deviations trigger events. Statistics use the
+        preceding filtered window and population standard deviation. Input dtype
+        is retained, including truncation of fractional updates for integer input.
+
     Returns
     -------
     t_events : pd.DatetimeIndex or list
@@ -128,11 +135,22 @@ def z_score_filter(
     [StackOverflow Question]
     (https://stackoverflow.com/questions/22583391/peak-signal-detection-in-realtime-timeseries-data).
     """
-    t_events = raw_time_series[
-        raw_time_series
-        >= raw_time_series.rolling(window=mean_window).mean()
-        + z_score * raw_time_series.rolling(window=std_window).std()
-    ].index
+    values = raw_time_series.to_numpy()
+    # Preserve input dtype: integer-series influence updates truncate, as in the legacy oracle.
+    filtered = values.copy()
+    means = np.zeros(len(values))
+    deviations = np.zeros(len(values))
+    start = max(mean_window, std_window)
+    events = []
+    means[mean_window - 1] = np.mean(values[:mean_window])
+    deviations[std_window - 1] = np.std(values[:std_window])
+    for i in range(start, len(values)):
+        if abs(values[i] - means[i - 1]) > z_score * deviations[i - 1]:
+            events.append(i)
+            filtered[i] = influence * values[i] + (1 - influence) * filtered[i - 1]
+        means[i] = np.mean(filtered[i - mean_window + 1 : i + 1])
+        deviations[i] = np.std(filtered[i - std_window + 1 : i + 1])
+    t_events = raw_time_series.index[events]
     if time_stamps:
         event_timestamps = pd.DatetimeIndex(t_events)
         return event_timestamps

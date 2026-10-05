@@ -77,7 +77,7 @@ def triple_barriers(close: pd.Series, events: pd.Series, pt_sl: np.array, molecu
 
 
 # Snippet 3.4 page 49, Adding a Vertical Barrier
-def add_vertical_barrier(t_events, close, num_days=0, num_hours=0, num_minutes=0, num_seconds=0):
+def add_vertical_barrier(t_events, close, num_days=0, num_hours=0, num_minutes=0, num_seconds=0, num_bars=None):
     """
     Adding a Vertical Barrier
 
@@ -101,6 +101,10 @@ def add_vertical_barrier(t_events, close, num_days=0, num_hours=0, num_minutes=0
     num_seconds : int, optional
         Number of seconds to add for vertical barrier.
 
+    num_bars : int, optional
+        Count bars from each event, ignoring time offsets when supplied. Events
+        must exist in the close index and be sorted.
+
     Returns
     -------
     verticle_barriers : pd.Series
@@ -111,13 +115,12 @@ def add_vertical_barrier(t_events, close, num_days=0, num_hours=0, num_minutes=0
     Advances in Financial Machine Learning, Snippet 3.4, page 49.
     """
 
-    # Create a timedelta object based on the input parameters
-    timedelta = pd.Timedelta(
-        "{} days, {} hours, {} minutes, {} seconds".format(num_days, num_hours, num_minutes, num_seconds)
-    )
-
-    # Find index to closest to vertical barrier
-    nearest_index = close.index.searchsorted(t_events + timedelta)
+    if num_bars is not None:
+        # Count observations rather than elapsed time; an absent event raises KeyError.
+        nearest_index = np.array([close.index.get_loc(event) + num_bars for event in t_events], dtype=int)
+    else:
+        timedelta = pd.Timedelta(days=num_days, hours=num_hours, minutes=num_minutes, seconds=num_seconds)
+        nearest_index = close.index.searchsorted(t_events + timedelta)
 
     # Exclude indexes which are outside the range of close price index
     nearest_index = nearest_index[nearest_index < close.shape[0]]

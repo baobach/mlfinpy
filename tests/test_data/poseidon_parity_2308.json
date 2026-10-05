@@ -1,0 +1,426 @@
+{
+  "provenance": {
+    "oracle": "mlfinlab 2.3.0 licensed runtime",
+    "captured": "2026-10-05",
+    "inputs": "synthetic; no production data",
+    "numpy": "1.23.5"
+  },
+  "filters": [
+    {
+      "dtype": "float",
+      "mean_window": 3,
+      "std_window": 3,
+      "influence": 0,
+      "z_score": 2,
+      "events": [
+        5,
+        6,
+        8,
+        9,
+        12
+      ],
+      "series": "float"
+    },
+    {
+      "dtype": "float",
+      "mean_window": 3,
+      "std_window": 3,
+      "influence": 0.5,
+      "z_score": 2,
+      "events": [
+        5,
+        6,
+        8,
+        9,
+        12
+      ],
+      "series": "float"
+    },
+    {
+      "dtype": "float",
+      "mean_window": 3,
+      "std_window": 3,
+      "influence": 1,
+      "z_score": 2,
+      "events": [
+        5,
+        8,
+        12
+      ],
+      "series": "float"
+    },
+    {
+      "dtype": "float",
+      "mean_window": 2,
+      "std_window": 4,
+      "influence": 0,
+      "z_score": 2,
+      "events": [
+        4,
+        5,
+        6,
+        8,
+        9,
+        12
+      ],
+      "series": "float"
+    },
+    {
+      "dtype": "float",
+      "mean_window": 2,
+      "std_window": 4,
+      "influence": 0.5,
+      "z_score": 2,
+      "events": [
+        4,
+        5,
+        6,
+        8
+      ],
+      "series": "float"
+    },
+    {
+      "dtype": "float",
+      "mean_window": 2,
+      "std_window": 4,
+      "influence": 1,
+      "z_score": 2,
+      "events": [
+        4,
+        5,
+        8
+      ],
+      "series": "float"
+    },
+    {
+      "dtype": "float",
+      "mean_window": 4,
+      "std_window": 2,
+      "influence": 0,
+      "z_score": 2,
+      "events": [
+        5,
+        6,
+        8,
+        9,
+        12
+      ],
+      "series": "float"
+    },
+    {
+      "dtype": "float",
+      "mean_window": 4,
+      "std_window": 2,
+      "influence": 0.5,
+      "z_score": 2,
+      "events": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        12,
+        15
+      ],
+      "series": "float"
+    },
+    {
+      "dtype": "float",
+      "mean_window": 4,
+      "std_window": 2,
+      "influence": 1,
+      "z_score": 2,
+      "events": [
+        5,
+        7,
+        8,
+        9,
+        10,
+        12,
+        15
+      ],
+      "series": "float"
+    },
+    {
+      "dtype": "float",
+      "mean_window": 1,
+      "std_window": 1,
+      "influence": 0,
+      "z_score": 2,
+      "events": [
+        5,
+        6,
+        8,
+        9,
+        12
+      ],
+      "series": "float"
+    },
+    {
+      "dtype": "float",
+      "mean_window": 1,
+      "std_window": 1,
+      "influence": 0.5,
+      "z_score": 2,
+      "events": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "series": "float"
+    },
+    {
+      "dtype": "float",
+      "mean_window": 1,
+      "std_window": 1,
+      "influence": 1,
+      "z_score": 2,
+      "events": [
+        5,
+        7,
+        8,
+        10,
+        12,
+        13
+      ],
+      "series": "float"
+    },
+    {
+      "dtype": "int",
+      "mean_window": 3,
+      "std_window": 3,
+      "influence": 0,
+      "z_score": 2,
+      "events": [
+        4,
+        6,
+        7,
+        8,
+        9
+      ],
+      "series": "int"
+    },
+    {
+      "dtype": "int",
+      "mean_window": 3,
+      "std_window": 3,
+      "influence": 0.5,
+      "z_score": 2,
+      "events": [
+        4,
+        6
+      ],
+      "series": "int"
+    },
+    {
+      "dtype": "int",
+      "mean_window": 3,
+      "std_window": 3,
+      "influence": 1,
+      "z_score": 2,
+      "events": [
+        4
+      ],
+      "series": "int"
+    },
+    {
+      "dtype": "int",
+      "mean_window": 2,
+      "std_window": 4,
+      "influence": 0,
+      "z_score": 2,
+      "events": [
+        4,
+        6,
+        7,
+        8,
+        9
+      ],
+      "series": "int"
+    },
+    {
+      "dtype": "int",
+      "mean_window": 2,
+      "std_window": 4,
+      "influence": 0.5,
+      "z_score": 2,
+      "events": [
+        4,
+        6,
+        9
+      ],
+      "series": "int"
+    },
+    {
+      "dtype": "int",
+      "mean_window": 2,
+      "std_window": 4,
+      "influence": 1,
+      "z_score": 2,
+      "events": [
+        4,
+        6
+      ],
+      "series": "int"
+    },
+    {
+      "dtype": "int",
+      "mean_window": 4,
+      "std_window": 2,
+      "influence": 0,
+      "z_score": 2,
+      "events": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "series": "int"
+    },
+    {
+      "dtype": "int",
+      "mean_window": 4,
+      "std_window": 2,
+      "influence": 0.5,
+      "z_score": 2,
+      "events": [
+        4,
+        6,
+        9
+      ],
+      "series": "int"
+    },
+    {
+      "dtype": "int",
+      "mean_window": 4,
+      "std_window": 2,
+      "influence": 1,
+      "z_score": 2,
+      "events": [
+        4,
+        9
+      ],
+      "series": "int"
+    },
+    {
+      "dtype": "int",
+      "mean_window": 1,
+      "std_window": 1,
+      "influence": 0,
+      "z_score": 2,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        9
+      ],
+      "series": "int"
+    },
+    {
+      "dtype": "int",
+      "mean_window": 1,
+      "std_window": 1,
+      "influence": 0.5,
+      "z_score": 2,
+      "events": [
+        1,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "series": "int"
+    },
+    {
+      "dtype": "int",
+      "mean_window": 1,
+      "std_window": 1,
+      "influence": 1,
+      "z_score": 2,
+      "events": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        9
+      ],
+      "series": "int"
+    },
+    {
+      "dtype": "float",
+      "mean_window": 3,
+      "std_window": 3,
+      "influence": 0.5,
+      "z_score": 2,
+      "events": [
+        3,
+        12
+      ],
+      "series": "float_missing"
+    }
+  ],
+  "series": {
+    "float": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      10,
+      10,
+      1,
+      -10,
+      -10,
+      1,
+      1,
+      10,
+      1,
+      1,
+      1
+    ],
+    "int": [
+      0,
+      3,
+      1,
+      1,
+      -4,
+      1,
+      4,
+      0,
+      0,
+      2
+    ],
+    "float_missing": [
+      1,
+      1,
+      1,
+      4,
+      null,
+      4,
+      1,
+      1,
+      4,
+      1,
+      1,
+      1,
+      -4
+    ]
+  }
+}
