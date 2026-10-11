@@ -51,7 +51,7 @@ In this guide, we can use the provided sample ``tick_data`` using the ``dataset`
 
 .. code-block:: python
 
-   from mlfinpy.datasets import (load_tick_sample, load_stock_prices, load_dollar_bar_sample)
+   from mlfinpy.dataset import (load_tick_sample, load_stock_prices, load_dollar_bar_sample)
 
    # Load sample tick data
    tick_df = load_tick_sample()
