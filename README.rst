@@ -37,8 +37,8 @@ Mlfin.py - Advanced Machine Learning application in Finance
         :alt: Documentation Status
 
 
-**MLfin.py** is an Advance Machine Learning toolbox for financial applications. The main idea is to use
-proprietary works and code snippets by Dr. Marcos López de Prado to build a morden Pythonic package
+**MLfin.py** is an Advanced Machine Learning toolbox for financial applications. The main idea is to use
+proprietary works and code snippets by Dr. Marcos López de Prado to build a modern Pythonic package
 that implements newest tech stacks from various libraries such as Numpy, Pandas, Numba, and Scikit-Learn.
 This work inspired by the library `MlFinLab <https://github.com/hudson-and-thames/mlfinlab>`_ by
 **Hudson and Thames**. Unfortunately, the library is closed-source yet I believe in the power of open source projects, I am hereby motivated to build this package from the ground up.
